@@ -4,14 +4,19 @@ body {
   color: #eaeaea;
   margin: 2rem;
 }
+
 h1 {
   text-align: center;
   color: #ffffff;
 }
+
 ul {
   list-style: none;
   padding: 0;
+  width: 60%;
+  margin: 0 auto;
 }
+
 li {
   background: #2a2a2a;
   margin: 1rem 0;
@@ -22,15 +27,18 @@ li {
   gap: 1rem;
   align-items: flex-start;
 }
+
 img {
   width: 100px;
   height: auto;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.7);
 }
+
 .book-info {
   flex: 1;
 }
+
 .book-info h2 {
   margin: 0;
   color: #f5f5f5;
@@ -48,12 +56,31 @@ img {
   font-size: 0.9rem;
   margin-top: 0.3rem;
 }
+
 .rating {
   font-size: 1.5rem;
   margin-top: 0.5rem;
 }
+
 .opinion {
   margin-top: 0.7rem;
   font-style: italic;
   color: #ccc;
+}
+
+.corner-image {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.corner-image img {
+  width: 200px;
+  height: auto;
+  opacity: 0.9;
+  box-shadow: none;
+  border-radius: none;
 }
