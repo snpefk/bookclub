@@ -35,6 +35,14 @@ img {
   margin: 0;
   color: #f5f5f5;
 }
+.book-info h2 a {
+  color: #f5f5f5;
+  text-decoration: none;
+}
+.book-info h2 a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
 .date {
   color: #aaa;
   font-size: 0.9rem;
