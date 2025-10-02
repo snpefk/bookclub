@@ -1,6 +1,10 @@
 body {
+    background: 
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
+        url('img/bg.png');
+    background-repeat: repeat;
+    background-color: #000;
     font-family: sans-serif;
-    background: #1e1e1e;
     color: #eaeaea;
     margin: 2rem;
 }
