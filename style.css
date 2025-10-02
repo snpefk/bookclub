@@ -42,6 +42,23 @@ img {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
 }
 
+a {
+    color: #d4af37;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    transition: 
+        transform 0.2s ease-in-out,
+        text-shadow 0.2s ease-in-out,
+        color 0.2s ease-in-out;
+}
+
+a:hover {
+    transform: scale(1.08);
+    text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
+    color: #fff8dc;
+}
+
 .book-info {
     flex: 1;
 }
