@@ -87,3 +87,19 @@ img {
     box-shadow: none;
     border-radius: none;
 }
+
+.subway-gif {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 9999;
+    width: 200px; /* Размер можно менять */
+    height: auto;
+    pointer-events: none; /* Чтобы не мешал нажимать на другие элементы */
+    opacity: 0.9;
+}
+
+.subway-gif img {
+    width: 100%;
+    height: auto;
+}
