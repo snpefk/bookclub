@@ -1,9 +1,10 @@
 body {
-    background: 
+    background:
         linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
-        url('img/bg.png');
-    background-repeat: repeat;
-    background-color: #000;
+        url('img/bckg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     font-family: sans-serif;
     color: #eaeaea;
     margin: 2rem;
@@ -211,11 +212,10 @@ ul.done .opinion {
     height: auto;
     opacity: 0.9;
     box-shadow: none;
-    border-radius: none;
 }
 
 .subway-gif {
-    position: fixed;
+    position: absolute;
     bottom: 10px;
     left: 10px;
     z-index: 9999;
