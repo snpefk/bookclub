@@ -40,6 +40,11 @@ li {
     align-items: flex-start;
 }
 
+audio {
+    width: 50%;
+    padding-left: 25%;
+}
+
 img {
     width: 100px;
     height: auto;
