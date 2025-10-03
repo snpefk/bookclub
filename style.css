@@ -38,7 +38,8 @@ li {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
     display: flex;
     gap: 1rem;
-    align-items: flex-start;
+    ustify-content: stretch;
+    min-height: 8rem;
 }
 
 audio {
@@ -65,7 +66,7 @@ a {
 }
 
 a:hover {
-    transform: scale(1.08);
+    transform: scale(1.05);
     text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
     color: #fff8dc;
 }
@@ -87,7 +88,7 @@ ul.done a {
 }
 
 ul.done a:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     color: #fffde7; /* чуть светлее */
     text-shadow:
       0 0 10px #fffacd,   /* мягкое сияние */
@@ -139,6 +140,8 @@ ul.done .opinion {
 
 .book-info {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .book-info h3 {
@@ -155,17 +158,11 @@ ul.done .opinion {
 }
 
 .date {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    color: rgba(139, 69, 19, 0.9); /* например, золотистый фон с прозрачностью */
-    margin: 1rem;
-    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.3); /* например, золотистый фон с прозрачностью */
     font-weight: bold;
-    white-space: nowrap; /* чтобы не переносилась строка */
-    z-index: 10; /* чтобы был поверх */
     font-size: 0.9rem;
-    margin-top: 0.3rem;
+    align-self: flex-end;
+    margin-top: auto;
 }
 
 .rating {
@@ -174,13 +171,12 @@ ul.done .opinion {
 }
 
 .opinion {
-    /* margin-top: 0.7rem; */
     font-family: "Balsamiq Sans", sans-serif;
     font-weight: 600;
     font-style: italic;
     color: #ccc;
-    padding: 0.5rem;
-    padding-top: 1.5rem;
+    align-self: center;
+    margin: auto;
 }
 
 .opinion::before {
@@ -215,7 +211,7 @@ ul.done .opinion {
 }
 
 .subway-gif {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     left: 10px;
     z-index: 9999;
