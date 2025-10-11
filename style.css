@@ -55,7 +55,6 @@ img {
 }
 
 a {
-    color: #d4af37;
     text-decoration: none;
     position: relative;
     display: inline-block;
@@ -68,7 +67,6 @@ a {
 a:hover {
     transform: scale(1.05);
     text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
-    color: #fff8dc;
 }
 
 ul.done a {
@@ -94,6 +92,71 @@ ul.done a:hover {
       0 0 10px #fffacd,   /* мягкое сияние */
       0 0 20px #ffd700,
       0 0 30px #ffec8b;
+}
+
+/* 🔵 Стили для ul.in-progress — синие ссылки */
+ul.in-progress a {
+    color: #add8e6; /* светло-синий */
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    transition: 
+        transform 0.2s ease-in-out,
+        text-shadow 0.2s ease-in-out,
+        color 0.2s ease-in-out;
+
+    text-shadow:
+      0 0 3px #1e90ff,   /* ярко-синий */
+      0 0 5px #00bfff;   /* голубой */
+}
+
+ul.in-progress a:hover {
+    transform: scale(1.05);
+    color: #e0f7ff; /* почти белый с голубым */
+    text-shadow:
+      0 0 10px #87cefa,
+      0 0 20px #00bfff,
+      0 0 30px #1e90ff;
+}
+
+/* ⚪ Стили для ul.backlog — серые ссылки */
+ul.backlog a {
+    color: #d3d3d3; /* светло-серый */
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    transition: 
+        transform 0.2s ease-in-out,
+        text-shadow 0.2s ease-in-out,
+        color 0.2s ease-in-out;
+
+    text-shadow:
+      0 0 3px #696969,   /* тёмно-серый */
+      0 0 5px #a9a9a9;   /* серый */
+}
+
+ul.backlog a:hover {
+    transform: scale(1.05);
+    color: #f5f5f5; /* почти белый */
+    text-shadow:
+      0 0 10px #b0b0b0,
+      0 0 20px #a9a9a9,
+      0 0 30px #808080;
+}
+
+body h2 {
+    width: 60%;
+    margin: 2rem auto 1rem auto;         /* center horizontally */
+    text-align: center;       /* make text stretch across the line */
+    font-size: 2rem;            /* large text */
+    font-weight: 800;           /* bold */
+    letter-spacing: 0.25em;     /* slight spacing */
+    text-transform: uppercase;  /* strong, epic style */
+    color: #f5f5f5;             /* soft light color */
+    padding: 1rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(rgba(255,255,255,0.00), rgba(255,255,255,0.05));
+    transition: transform 0.3s ease-in-out;
 }
 
 ul.done > li {
