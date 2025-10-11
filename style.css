@@ -138,6 +138,16 @@ ul.done .opinion {
   }
 }
 
+ul.in-progress > li {
+    background-image:
+    linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)),
+    url('img/computer-graphics.png');
+
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+}
+
 .book-info {
     flex: 1;
     display: flex;
@@ -157,8 +167,16 @@ ul.done .opinion {
     text-decoration: underline;
 }
 
+.book-info .footer {
+    margin-top: auto;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .date {
-    color: rgba(255, 255, 255, 0.3); /* например, золотистый фон с прозрачностью */
+    color: rgba(255, 255, 255, 0.5); /* например, золотистый фон с прозрачностью */
     font-weight: bold;
     font-size: 0.9rem;
     align-self: flex-end;
@@ -166,7 +184,7 @@ ul.done .opinion {
 }
 
 .rating {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     margin-top: 0.5rem;
 }
 
@@ -174,9 +192,13 @@ ul.done .opinion {
     font-family: "Balsamiq Sans", sans-serif;
     font-weight: 600;
     font-style: italic;
+    font-size: 1.1rem;
     color: #ccc;
-    align-self: center;
-    margin: auto;
+    flex-grow: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .opinion::before {
