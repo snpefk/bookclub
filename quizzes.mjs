@@ -4,9 +4,9 @@ export const books = [
         id: 'rust-atomics-and-locks',
         chapters: [
             {
-                id: 'sample',
-                title: 'Sample chapter (demo)',
-                file: 'quizzes/rust-atomics-and-locks/sample.gift',
+                id: 'hardware',
+                title: 'Chapter 7 — Understanding the Processor',
+                file: 'quizzes/rust-atomics-and-locks/hardware.gift',
                 revision: 1
             }
         ]

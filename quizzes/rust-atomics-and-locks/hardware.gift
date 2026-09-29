@@ -1,0 +1,145 @@
+// Rust Atomics and Locks, Chapter 7: Understanding the Processor
+// https://mara.nl/atomics/hardware.html
+$CATEGORY: Chapter 7 — Understanding the Processor
+
+::Assembly and targets::Why does the chapter inspect compiled assembly for both x86-64 and ARM64? {
+    ~Rust programs execute the same machine instructions on every architecture.
+    =The architectures implement atomic operations differently, so comparing their instructions helps explain the trade-offs.#Exactly: x86-64 often uses lock-prefixed instructions; early ARM64 often uses load-exclusive/store-exclusive loops.
+    ~Assembly is required to prove that a Rust program is free of data races.
+    ####Assembly is a human-readable representation of architecture-specific machine instructions.
+}
+
+::Inspecting optimized assembly::Which actions help produce useful assembly for the ARM64 examples? {
+    ~%50%Compile with optimizations enabled, such as rustc -O.#Optimizing removes distractions such as overflow checks in small examples.
+    ~%50%Select the aarch64-unknown-linux-musl target.#Without an explicit target, rustc chooses the host platform.
+    ~%-50%Select x86_64-unknown-linux-musl to inspect ARM64 instructions.
+    ~%-50%Disable optimization so that every Rust expression becomes exactly one instruction.
+}
+
+::Relaxed loads and stores::On the two architectures in the chapter, a relaxed AtomicI32 load or store can compile to the same instruction as the corresponding non-atomic load or store. {TRUE#Compare the mov, ldr and str examples.#Correct; the compiler must still respect the Rust distinction between atomic and non-atomic access.}
+
+::Compiler versus processor::If a relaxed atomic store and a non-atomic store happen to use the same instruction, is it safe to replace an AtomicI32 shared between threads with a plain i32? {
+    ~Yes, the generated instructions must always stay identical.
+    =No, the compiler may transform non-atomic accesses under different assumptions about concurrent access.#The source-level atomic contract still matters even when one particular compilation emits identical instructions.
+    ~Yes, but only if the value stored is zero.
+}
+
+::Atomic addition on x86-64::What distinguishes an x86-64 atomic fetch_add whose return value is ignored from a plain non-atomic memory add? {
+    ~It must use an ARM64 ldxr/stxr loop.
+    =The atomic version can use a lock-prefixed add instruction.#A plain x86 add has internal steps and does not by itself guarantee atomicity between cores.
+    ~A regular add is already atomic whenever it fits in one assembly instruction.
+}
+
+::Old value of fetch_add::Which x86-64 instruction can atomically add and return the value from before the addition? {
+    ~lock add
+    =lock xadd#xadd puts the originally loaded value into a register.
+    ~plain mov
+}
+
+::Fetch or on x86-64::Why can fetch_or(10) require a lock cmpxchg retry loop when its old value is used? {
+    =The lock-prefixed or instruction does not return the full old value, and the single-bit test instructions cannot implement this multi-bit operation.#The loop computes a candidate value and retries if another core changed the atomic value.
+    ~x86-64 has no instruction that can atomically compare and exchange memory.
+    ~Relaxed ordering forbids the lock prefix.
+}
+
+::Load-linked/store-conditional::What makes a store-conditional succeed after a load-linked operation? {
+    ~The new value is equal to the value previously loaded.
+    =The monitored memory has not been overwritten since the load-linked operation, and the store-conditional does not fail spuriously.#A failed store can be retried; spurious failure is permitted even without an intervening write.
+    ~All other processor cores have stopped executing.
+}
+
+::ARM64 exclusive instructions::Match the ARM64 instruction to its role in the chapter. {
+    =ldxr->load an exclusive value
+    =stxr->try a conditional store and report success or failure
+    =clrex->abandon exclusive tracking without storing
+    ####In the fetch_add example, cbnz retries when stxr reports failure.
+}
+
+::Weak compare exchange::Why can compare_exchange_weak fail even if the current value equals the expected value on early ARM64? {
+    ~The expected value is automatically rounded to a cache-line boundary.
+    =stxr is allowed to fail spuriously, and the weak operation may expose that failure.#The strong operation retries an LL/SC failure when the comparison itself still matches.
+    ~The weak operation is not atomic.
+}
+
+::Weak on x86-64::In the chapter's x86-64 examples, compare_exchange and compare_exchange_weak compile to the same lock cmpxchg instruction. {TRUE#The chapter contrasts this with an early ARM64 LL/SC implementation.#Correct. ARMv8.1 with its cas instruction can also eliminate this distinction at the instruction level.}
+
+::ARMv8.1 additions::A later ARMv8.1 extension introduced dedicated instructions for some atomic operations, including ldadd and cas. {TRUE#ARMv8.1 adds these specialized instructions alongside the LL/SC approach.#Correct: ldadd can implement fetch_add without an LL/SC loop.}
+
+::Cache lines::Approximately how many bytes make up a typical cache line in the chapter's examples? {#64:0#Correct; this is a common size, not a promise for every processor.}
+
+::MESI states::Match each MESI state to its meaning. {
+    =Modified->changed and not yet written to the next level
+    =Exclusive->clean and held by no other same-level cache
+    =Shared->clean and possibly held by other same-level caches
+    =Invalid->contains no usable cached data
+}
+
+::Write-through::In a write-through cache coherence protocol, what happens to writes? {
+    =They are sent on to the next layer immediately, and other caches can observe and invalidate or update their copies.#This avoids modified cache lines but gives up the caching benefit for writes.
+    ~They remain private in the writing core's cache until eviction.
+    ~They are always delayed until another core requests the line.
+}
+
+::Benchmarking loads::Why does the chapter pass both a reference to the atomic and the result of each load through black_box in its benchmark? {
+    ~It makes each load sequentially consistent.
+    =It stops the compiler from assuming the atomic is never changed elsewhere or that unused load results can be eliminated.#Otherwise a billion-load loop can be optimized away or made unrepresentative.
+    ~It forces the processor to bypass every cache.
+}
+
+::False sharing::One core repeatedly loads the middle AtomicU64 of a three-element array. Another core repeatedly stores to the outer two. Why can the middle load slow down? {
+    ~The middle atomic is modified by the stores to its neighboring elements.
+    =Different atomics can share a cache line, so stores to the neighbors repeatedly require exclusive ownership of a line also used by the middle load.#This is false sharing even though the threads do not access the same variable.
+    ~AtomicU64 cannot be stored in an array.
+}
+
+::Alignment and padding::In the chapter's example, how many bytes of padding are added when an 8-byte AtomicU64 is wrapped in a 64-byte aligned struct? {#56:0#64 minus 8 leaves 56 bytes of padding per wrapper.}
+
+::Failed compare and exchange::Why can a loop of compare_exchange calls slow down loads on another core even when every comparison fails? {
+    =On most architectures, the operation claims exclusive access to the cache line even on failure.#A load-first check in a spin loop can avoid repeatedly claiming exclusive access while the lock is held.
+    ~Every failed attempt still stores its proposed new value.
+    ~Failed compare-and-exchange operations flush all caches.
+}
+
+::Store buffers::A core places a write in its store buffer and continues before the write reaches its L1 cache. What is the relevant consequence for other cores? {
+    ~All cores must observe the write immediately because the issuing core continued.
+    =Other cores may not see the write yet, even though the issuing core has continued.#Store buffers are one hardware source of temporarily different views of memory.
+    ~The compiler converts the write to a non-atomic operation.
+}
+
+::Other-multi-copy atomicity::On x86-64 and ARM64, when a write becomes visible to one other core, it becomes visible to all other cores at the same time. {TRUE#This is not guaranteed on every processor architecture.#Correct; the chapter calls these architectures other-multi-copy atomic.}
+
+::x86-64 ordering::Which reordering of memory operations can the chapter's x86-64 model permit? {
+    ~An acquire load moving after a later load.
+    =A store being delayed until after a later load.#This is why a SeqCst store needs more than a plain mov on x86-64.
+    ~A release store becoming visible before an earlier memory operation.
+}
+
+::Sequentially consistent store::Which instruction is used for the chapter's SeqCst store example on x86-64 instead of the mov used for a relaxed store? {
+    ~ldar
+    =xchg#The exchange also performs a load, preventing the store from being reordered with a later load.
+    ~plain add
+}
+
+::ARM64 acquire and release::Match each ARM64 instruction to its role in the chapter. {
+    =ldr->relaxed load
+    =ldar->acquire load
+    =str->relaxed store
+    =stlr->release store
+    ####An ARM64 SeqCst load and store use the same ldar and stlr instructions as Acquire and Release here.
+}
+
+::ARM64 ordering costs::In the chapter's ARM64 examples, changing a Release store to SeqCst or an Acquire load to SeqCst adds no new instructions, but changing Relaxed to Release or Acquire does. {TRUE#Compare str with stlr and ldr with ldar.#Correct; the stronger acquire and release variants also suffice for SeqCst in these examples.}
+
+::Compiler fences in the experiment::Why did the chapter use compiler_fence(Acquire) and compiler_fence(Release) around a deliberately relaxed spin lock? {
+    ~They make the processor provide full acquire and release ordering on every architecture.
+    =They constrain compiler reordering while leaving processor reordering possible, isolating the hardware effect.#The M1 experiment exposed missed increments despite the compiler fences.
+    ~They make a separate load and store increment atomic.
+}
+
+::Memory fences::Which architecture/instruction pair matches the chapter's SeqCst fence example? {
+    ~x86-64 uses no instruction; ARM64 uses ldr.
+    =x86-64 uses mfence; ARM64 uses dmb ish.#Acquire and release fences need no corresponding processor instruction on x86-64 in these examples.
+    ~x86-64 uses stlr; ARM64 uses lock cmpxchg.
+}
+
+::Putting it together::Explain why checking a spin lock with a load before attempting compare_exchange can help performance, and why putting unrelated atomics on separate cache lines can help as well. {####A good answer explains that a failed compare_exchange can still request exclusive cache-line ownership, whereas repeated loads can share a clean line. It also explains false sharing: writes to one atomic invalidate or take exclusive ownership of a whole cache line that contains other atomics. Separate cache lines prevent those unrelated writes from disturbing readers of neighboring atomics.}

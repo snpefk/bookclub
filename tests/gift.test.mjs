@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { parseGift, grade } from '../gift.mjs';
+import { books } from '../quizzes.mjs';
 
 test('the published demo loads as a real quiz with every supported question type', () => {
     const source = readFileSync(new URL('../quizzes/rust-atomics-and-locks/sample.gift', import.meta.url), 'utf8');
@@ -51,4 +52,22 @@ test('invalid syntax is rejected with a useful line number', () => {
     assert.throws(() => parseGift('What? {=yes'), /Line 1: unclosed answer block/);
     assert.throws(() => parseGift('Choices? {~%oops%no =yes}'), /Line 1: Invalid answer weight/);
     assert.throws(() => parseGift('Only a description'), /No gradable questions/);
+});
+
+test('the hardware chapter test is registered and grades representative answers', () => {
+    const chapter = books[0].chapters.find(item => item.id === 'hardware');
+    assert.ok(chapter);
+    const source = readFileSync(new URL('../' + chapter.file, import.meta.url), 'utf8');
+    const questions = parseGift(source);
+    assert.equal(questions.length, 28);
+    assert.ok(questions.every(question => question.category.includes('Chapter 7')));
+    const named = title => questions.find(question => question.title === title);
+    assert.equal(grade(named('Compiler versus processor'), 1), 1);
+    assert.equal(grade(named('Inspecting optimized assembly'), [0, 1]), 1);
+    assert.equal(grade(named('Inspecting optimized assembly'), [0, 1, 2]), 0.5);
+    assert.equal(grade(named('ARM64 exclusive instructions'), ['load an exclusive value', 'try a conditional store and report success or failure', 'abandon exclusive tracking without storing']), 1);
+    assert.equal(grade(named('Cache lines'), 64), 1);
+    assert.equal(grade(named('Alignment and padding'), 8), 0);
+    assert.equal(grade(named('x86-64 ordering'), 1), 1);
+    assert.equal(grade(named('Putting it together'), true), 1);
 });
