@@ -1,0 +1,30 @@
+// Demo only: replace this with questions about a real chapter when ready.
+$CATEGORY: Sample chapter
+
+::Single choice::Which of these is a synchronization primitive? {
+    ~A bookmark
+    =A mutex#Correct: a mutex coordinates access to shared data.
+    ~A chapter title
+    ####This is a demonstration question, not a test of the book.
+}
+
+::Multiple answers::Select the two even numbers. {
+    ~%-50%Three
+    ~%50%Two
+    ~%50%Four
+    ~%-50%Five
+}
+
+::True or false::Two plus two is four. {TRUE#Try adding again.#Right!}
+
+::Short answer::Write the word for the number 2. {=two#Yes. =%50%2#The numeral is close, but try the word.}
+
+::Matching::Match each symbol to its name. {=\=->equals =\~->tilde}
+
+::Numerical::What is half of ten? {#5:0.1#Yes, approximately five.}
+
+::Missing word::A {=mutex ~bookmark} can guard shared data.
+
+::Essay::In your own words, why would a reading club discuss a chapter? {####Compare your answer with your own goals for the club. Mark it correct if you explained how discussion helps you understand or remember the material.}
+
+::Description::This note gives context but does not count towards your score.

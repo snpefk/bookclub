@@ -379,3 +379,64 @@ ul.in-progress > li {
     width: 100%;
     height: auto;
 }
+
+/* Chapter links and the standalone quiz share the site's dark palette. */
+.book-info h4 { margin: 0.75rem 0 0; }
+.chapter-list { width: 100%; margin: 0; }
+.chapter-list li {
+    display: block;
+    min-height: 0;
+    margin: 0.4rem 0;
+    padding: 0.6rem;
+}
+.chapter-list a, .quiz-page a { color: #add8e6; }
+.chapter-list span { color: #eee; }
+
+.quiz-page { max-width: 52rem; margin: 2rem auto; }
+.quiz-page h1 { margin: 2rem 0; }
+.quiz-page h2 { width: auto; text-align: left; letter-spacing: normal; }
+.quiz-card {
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    margin: 1rem 0;
+    padding: 1.25rem;
+}
+.quiz-card h3 { margin-top: 0; white-space: pre-line; }
+.quiz-card p { white-space: pre-line; }
+.quiz-category { color: #add8e6; }
+.quiz-option, .quiz-match, .quiz-input { display: block; margin: 0.7rem 0; }
+.quiz-option { cursor: pointer; }
+.quiz-match select { margin-left: 0.5rem; }
+.quiz-input input, .quiz-input textarea, .quiz-match select {
+    display: block;
+    box-sizing: border-box;
+    max-width: 100%;
+    margin-top: 0.4rem;
+    padding: 0.55rem;
+    border-radius: 4px;
+    font: inherit;
+}
+.quiz-input input, .quiz-input textarea { width: 100%; }
+.quiz-input textarea { min-height: 9rem; }
+.quiz-page button {
+    background: #add8e6;
+    border: 0;
+    border-radius: 5px;
+    color: #111;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    padding: 0.7rem 1.2rem;
+}
+.quiz-page button:hover { background: #e0f7ff; }
+.quiz-page button:focus-visible, .quiz-page a:focus-visible, .chapter-list a:focus-visible { outline: 3px solid gold; }
+.quiz-feedback { border-left: 3px solid #add8e6; padding-left: 0.75rem; }
+
+@media (max-width: 700px) {
+    body { margin: 1rem; }
+    body h2, body > ul { width: 100%; box-sizing: border-box; }
+    audio { width: 100%; padding: 0; }
+    .subway-gif { display: none; }
+}
