@@ -1,5 +1,7 @@
 import { parseGift, grade } from './gift.mjs';
-import { books, scoreKey } from './quizzes.mjs';
+// The chapter list changes more often than the quiz UI. Fetch a fresh module so a
+// previously cached list cannot reject a link added by a newer index.html.
+const { books, scoreKey } = await import(`./quizzes.mjs?updated=${Date.now()}`);
 
 const title = document.querySelector('#quiz-title');
 const status = document.querySelector('#quiz-status');

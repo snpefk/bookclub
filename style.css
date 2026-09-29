@@ -369,7 +369,7 @@ ul.in-progress > li {
     bottom: 10px;
     left: 10px;
     z-index: 9999;
-    width: 200px; /* Adjustable size */
+    width: min(320px, 32vw);
     height: auto;
     pointer-events: none; /* Allow clicks on other elements */
     opacity: 0.9;

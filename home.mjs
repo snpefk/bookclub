@@ -1,4 +1,4 @@
-import { books, scoreKey } from './quizzes.mjs';
+const { books, scoreKey } = await import(`./quizzes.mjs?updated=${Date.now()}`);
 
 for (const book of books) {
     const target = document.querySelector(`[data-quiz-book="${book.id}"]`);
