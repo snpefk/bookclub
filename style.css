@@ -70,7 +70,7 @@ a:hover {
 }
 
 ul.done a {
-    color: #fff8dc; /* светлый кремовый, лучше читается на золоте */
+    color: #fff8dc; /* light cream, easier to read against gold */
     text-decoration: none;
     position: relative;
     display: inline-block;
@@ -79,24 +79,24 @@ ul.done a {
         text-shadow 0.2s ease-in-out,
         color 0.2s ease-in-out;
     
-    /* Лёгкая тень для контраста с фоном */
+    /* Subtle shadow for contrast with the background */
     text-shadow:
-      0 0 3px #b8860b,      /* темно-золотистая тень */
-      0 0 5px #ffd700;      /* яркое золото */
+      0 0 3px #b8860b,      /* dark golden shadow */
+      0 0 5px #ffd700;      /* bright gold */
 }
 
 ul.done a:hover {
     transform: scale(1.05);
-    color: #fffde7; /* чуть светлее */
+    color: #fffde7; /* slightly lighter */
     text-shadow:
-      0 0 10px #fffacd,   /* мягкое сияние */
+      0 0 10px #fffacd,   /* soft glow */
       0 0 20px #ffd700,
       0 0 30px #ffec8b;
 }
 
-/* 🔵 Стили для ul.in-progress — синие ссылки */
+/* 🔵 Styles for ul.in-progress — blue links */
 ul.in-progress a {
-    color: #add8e6; /* светло-синий */
+    color: #add8e6; /* light blue */
     text-decoration: none;
     position: relative;
     display: inline-block;
@@ -106,22 +106,22 @@ ul.in-progress a {
         color 0.2s ease-in-out;
 
     text-shadow:
-      0 0 3px #1e90ff,   /* ярко-синий */
-      0 0 5px #00bfff;   /* голубой */
+      0 0 3px #1e90ff,   /* bright blue */
+      0 0 5px #00bfff;   /* sky blue */
 }
 
 ul.in-progress a:hover {
     transform: scale(1.05);
-    color: #e0f7ff; /* почти белый с голубым */
+    color: #e0f7ff; /* almost white with a blue tint */
     text-shadow:
       0 0 10px #87cefa,
       0 0 20px #00bfff,
       0 0 30px #1e90ff;
 }
 
-/* ⚪ Стили для ul.backlog — серые ссылки */
+/* ⚪ Styles for ul.backlog — gray links */
 ul.backlog a {
-    color: #d3d3d3; /* светло-серый */
+    color: #d3d3d3; /* light gray */
     text-decoration: none;
     position: relative;
     display: inline-block;
@@ -131,13 +131,13 @@ ul.backlog a {
         color 0.2s ease-in-out;
 
     text-shadow:
-      0 0 3px #696969,   /* тёмно-серый */
-      0 0 5px #a9a9a9;   /* серый */
+      0 0 3px #696969,   /* dark gray */
+      0 0 5px #a9a9a9;   /* gray */
 }
 
 ul.backlog a:hover {
     transform: scale(1.05);
-    color: #f5f5f5; /* почти белый */
+    color: #f5f5f5; /* almost white */
     text-shadow:
       0 0 10px #b0b0b0,
       0 0 20px #a9a9a9,
@@ -173,10 +173,10 @@ ul.done > li {
 }
 
 ul.done .opinion {
-    color: #fff8dc; /* светлый кремовый, лучше читается на золоте */
+    color: #fff8dc; /* light cream, easier to read against gold */
 }
 
-/* Перелив градиента свечения */
+/* Shifting glow gradient */
 @keyframes steamGlow {
   0% {
     box-shadow:
@@ -257,7 +257,7 @@ ul.in-progress > li {
 }
 
 .date {
-    color: rgba(255, 255, 255, 0.5); /* например, золотистый фон с прозрачностью */
+    color: rgba(255, 255, 255, 0.5); /* for example, a translucent golden background */
     font-weight: bold;
     font-size: 0.9rem;
     align-self: flex-end;
@@ -369,9 +369,9 @@ ul.in-progress > li {
     bottom: 10px;
     left: 10px;
     z-index: 9999;
-    width: 200px; /* Размер можно менять */
+    width: 200px; /* Adjustable size */
     height: auto;
-    pointer-events: none; /* Чтобы не мешал нажимать на другие элементы */
+    pointer-events: none; /* Allow clicks on other elements */
     opacity: 0.9;
 }
 
