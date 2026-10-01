@@ -18,7 +18,7 @@ for (const book of books) {
             item = document.createElement('li');
             item.dataset.quizChapter = chapter.id;
             const link = document.createElement('a');
-            link.href = `quiz.html?chapter=${encodeURIComponent(chapter.id)}`;
+            link.href = `quiz.html?chapter=${encodeURIComponent(chapter.id)}&v=3`;
             link.textContent = chapter.title;
             item.append(link);
             list.append(item);

@@ -92,60 +92,68 @@ function finish(scores) {
         result.append(el('p', 'Result saved on this device.'));
     }
     catch { result.append(el('p', 'This browser could not save the result locally.')); }
+    result.scrollIntoView({ behavior: 'smooth' });
 }
 
-function submit(questions) {
-    const answers = questions.map(responseFor);
-    const incomplete = questions.findIndex((question, index) => question.type !== 'description' && (
-        answers[index] === undefined || answers[index] === '' ||
-        (Array.isArray(answers[index]) && (!answers[index].length || answers[index].some(value => value === '')))
-    ));
-    if (incomplete >= 0) {
-        result.replaceChildren(el('p', `Please answer question ${incomplete + 1} before submitting.`));
-        document.getElementById(`question-${incomplete}`).scrollIntoView({ behavior: 'smooth' });
-        return;
-    }
-    form.querySelectorAll('input, select, textarea, button').forEach(input => input.disabled = true);
+function setupChecking(questions) {
     const scores = [];
-    const essays = [];
+    const total = questions.filter(question => question.type !== 'description').length;
+    const updateProgress = () => {
+        const checked = scores.filter(value => value !== undefined).length;
+        if (checked === total) finish(scores.filter(value => value !== undefined));
+        else result.replaceChildren(el('p', `${checked} of ${total} questions checked. Check each answer to finish the test.`));
+    };
+    updateProgress();
     questions.forEach((question, index) => {
         if (question.type === 'description') return;
         const card = document.getElementById(`question-${index}`);
-        const response = answers[index];
-        if (question.type === 'essay') {
-            if (question.generalFeedback) card.append(el('p', question.generalFeedback, 'quiz-feedback'));
-            const assessment = el('div', undefined, 'quiz-assessment');
-            assessment.append(el('p', 'Compare your answer with the feedback, then assess yourself:'));
-            for (const [label, value] of [['Correct', 1], ['Incorrect', 0]]) {
-                const button = el('button', label);
-                button.type = 'button';
-                button.addEventListener('click', () => {
-                    scores[index] = value;
-                    assessment.replaceChildren(el('p', `Self-assessed: ${label.toLowerCase()}.`));
-                    if (essays.every(i => scores[i] !== undefined)) finish(scores.filter(value => value !== undefined));
-                });
-                assessment.append(button);
+        const check = el('button', 'Check answer');
+        check.type = 'button';
+        const message = el('p');
+        message.setAttribute('role', 'status');
+        card.append(check, message);
+        check.addEventListener('click', () => {
+            const response = responseFor(question, index);
+            if (response === undefined || response === '' ||
+                (Array.isArray(response) && (!response.length || response.some(value => value === '')))) {
+                message.textContent = 'Choose or enter an answer first.';
+                return;
             }
-            essays.push(index);
-            card.append(assessment);
-        } else {
+            message.textContent = '';
+            check.remove();
+            card.querySelectorAll('input, select, textarea').forEach(input => input.disabled = true);
+            if (question.type === 'essay') {
+                if (question.generalFeedback) card.append(el('p', question.generalFeedback, 'quiz-feedback'));
+                const assessment = el('div', undefined, 'quiz-assessment');
+                assessment.append(el('p', 'Compare your answer with the feedback, then assess yourself:'));
+                for (const [label, value] of [['Correct', 1], ['Incorrect', 0]]) {
+                    const button = el('button', label);
+                    button.type = 'button';
+                    button.addEventListener('click', () => {
+                        scores[index] = value;
+                        assessment.replaceChildren(el('p', `Self-assessed: ${label.toLowerCase()}.`));
+                        updateProgress();
+                    });
+                    assessment.append(button);
+                }
+                card.append(assessment);
+                return;
+            }
             scores[index] = grade(question, response);
             card.append(el('p', `Score: ${Math.round(scores[index] * 100)}% of 1 point`, 'quiz-feedback'));
-        }
-        const feedback = feedbackFor(question, response);
-        if (feedback) card.append(el('p', feedback, 'quiz-feedback'));
-        if (question.generalFeedback && question.type !== 'essay') card.append(el('p', question.generalFeedback, 'quiz-feedback'));
-        if (scores[index] !== 1 && question.type !== 'essay') {
-            const solution = question.type === 'truefalse' ? String(question.correct) :
-                question.type === 'matching' ? question.pairs.map(pair => `${pair.left} → ${pair.right}`).join('; ') :
-                question.type === 'numerical' ? question.answers.map(item => item.text).join(' / ') :
-                question.answers.filter(item => item.weight > 0).map(item => item.text).join(' / ');
-            card.append(el('p', `Answer: ${solution}`, 'quiz-feedback'));
-        }
+            const feedback = feedbackFor(question, response);
+            if (feedback) card.append(el('p', feedback, 'quiz-feedback'));
+            if (question.generalFeedback) card.append(el('p', question.generalFeedback, 'quiz-feedback'));
+            if (scores[index] !== 1) {
+                const solution = question.type === 'truefalse' ? String(question.correct) :
+                    question.type === 'matching' ? question.pairs.map(pair => `${pair.left} → ${pair.right}`).join('; ') :
+                    question.type === 'numerical' ? question.answers.map(item => item.text).join(' / ') :
+                    question.answers.filter(item => item.weight > 0).map(item => item.text).join(' / ');
+                card.append(el('p', `Answer: ${solution}`, 'quiz-feedback'));
+            }
+            updateProgress();
+        });
     });
-    result.replaceChildren();
-    if (essays.length) result.append(el('p', 'Self-assess each essay above to finish your test.'));
-    else finish(scores.filter(value => value !== undefined));
 }
 
 async function load() {
@@ -154,7 +162,7 @@ async function load() {
     const response = await fetch(chapter.file);
     if (!response.ok) throw new Error(`Could not load questions (${response.status}).`);
     const questions = parseGift(await response.text());
-    status.textContent = `${questions.filter(item => item.type !== 'description').length} questions · Pass at 80% · Results stay on this device`;
+    status.textContent = `${questions.filter(item => item.type !== 'description').length} questions · Check each answer as you go · Pass at 80% · Results stay on this device`;
     questions.forEach((question, index) => {
         const card = el('section', undefined, 'quiz-card');
         card.id = `question-${index}`;
@@ -164,11 +172,9 @@ async function load() {
         renderInput(question, index, card);
         form.append(card);
     });
-    const submitButton = el('button', 'Submit answers');
-    submitButton.type = 'submit';
-    form.append(submitButton);
     form.hidden = false;
-    form.addEventListener('submit', event => { event.preventDefault(); submit(questions); });
+    form.addEventListener('submit', event => event.preventDefault());
+    setupChecking(questions);
 }
 
 load().catch(error => { status.textContent = error.message; });

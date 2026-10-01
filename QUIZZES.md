@@ -1,6 +1,6 @@
 # Chapter tests
 
-The site runs entirely on GitHub Pages. Its GIFT files, parser, and quiz UI are committed to this repository. Test results are saved in each reader's browser, not shared between devices or readers. A score of 80% or more passes; each scored question is worth one point. Essays are self-assessed after submitting. The included `sample.gift` is an authoring template, not a book chapter test.
+The site runs entirely on GitHub Pages. Its GIFT files, parser, and quiz UI are committed to this repository. Readers check each question individually and see feedback immediately; after all questions are checked, a score of 80% or more passes. Each scored question is worth one point. Essays are self-assessed after revealing their feedback. Results are saved in each reader's browser, not shared between devices or readers. The included `sample.gift` is an authoring template, not a book chapter test.
 
 ## Add a chapter
 
