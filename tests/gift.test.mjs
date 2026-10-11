@@ -71,3 +71,23 @@ test('the hardware chapter test is registered and grades representative answers'
     assert.equal(grade(named('x86-64 ordering'), 1), 1);
     assert.equal(grade(named('Putting it together'), true), 1);
 });
+
+test('the building locks chapter covers mutexes, condition variables, and reader-writer locks', () => {
+    const chapter = books[0].chapters.find(item => item.id === 'building-locks');
+    assert.ok(chapter);
+    const source = readFileSync(new URL('../' + chapter.file, import.meta.url), 'utf8');
+    const questions = parseGift(source);
+    assert.equal(questions.length, 31);
+    assert.ok(questions.every(question => question.category === 'Chapter 9 — Building Our Own Locks'));
+    const named = title => questions.find(question => question.title === title);
+    assert.equal(grade(named('Atomic wait building blocks'), [0, 1, 2]), 1);
+    assert.equal(grade(named('Atomic wait building blocks'), [0, 1, 2, 3]), 0.5);
+    assert.equal(grade(named('Three-state mutex'), ['unlocked', 'locked without known waiters', 'locked with waiter or waiters']), 1);
+    assert.equal(grade(named('Condvar wake optimization'), 1), 1);
+    assert.equal(grade(named('Reader count with writer pending'), 1), 1);
+    assert.equal(grade(named('Reader count with writer pending'), 0), 0);
+    assert.equal(grade(named('Design trade-off'), true), 1);
+    for (const question of questions.filter(item => item.type === 'single')) {
+        assert.equal(question.answers.filter(answer => answer.weight === 1).length, 1, question.title);
+    }
+});

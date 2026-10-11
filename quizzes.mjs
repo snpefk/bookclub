@@ -8,6 +8,12 @@ export const books = [
                 title: 'Chapter 7 — Understanding the Processor',
                 file: 'quizzes/rust-atomics-and-locks/hardware.gift',
                 revision: 1
+            },
+            {
+                id: 'building-locks',
+                title: 'Chapter 9 — Building Our Own Locks',
+                file: 'quizzes/rust-atomics-and-locks/building-locks.gift',
+                revision: 1
             }
         ]
     }

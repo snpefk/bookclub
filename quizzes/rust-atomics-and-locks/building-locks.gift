@@ -1,0 +1,181 @@
+// Rust Atomics and Locks, Chapter 9: Building Our Own Locks
+// https://mara.nl/atomics/building-locks.html
+$CATEGORY: Chapter 9 — Building Our Own Locks
+
+::Atomic wait building blocks::Which three operations does the atomic-wait crate provide? {
+    ~%33.33%wait
+    ~%33.33%wake_one
+    ~%33.34%wake_all
+    ~%-50%lock
+    ~%-50%notify
+    ####The crate wraps platform-specific futex-like waiting and waking for 32-bit atomics.
+}
+
+::Spurious return::If atomic_wait::wait returns, what should a caller assume? {
+    ~The atomic variable definitely changed to the desired value.
+    =The return might be spurious, so check the atomic state again and wait again if necessary.#A wake operation is not a substitute for checking the actual state.
+    ~The thread now owns the lock.
+}
+
+::Why AtomicU32::Why does the chapter's mutex use AtomicU32 rather than the AtomicBool used by the earlier spin lock? {
+    =The portable wait and wake functions take a 32-bit atomic, and later versions need multiple lock states.#The first mutex uses zero for unlocked and one for locked.
+    ~AtomicBool cannot be accessed from more than one thread.
+    ~AtomicU32 makes the UnsafeCell unnecessary.
+}
+
+::Initial mutex::How does the first mutex avoid missing an unlock between a failed swap and going to sleep? {
+    ~It wakes all waiting threads every time it attempts to lock.
+    =wait only blocks if the state is still locked at the time of the call.#If the state is no longer one, wait returns without sleeping.
+    ~It disables context switching while waiting.
+}
+
+::Initial unlock::What does the first MutexGuard drop implementation do? {
+    =It stores the unlocked state with Release ordering and then calls wake_one.#A waiter might otherwise stay asleep after the mutex is unlocked.
+    ~It calls wake_all before clearing the locked state.
+    ~It drops the protected value and leaves the mutex locked.
+}
+
+::Why one wake::Why is wake_one sufficient when unlocking this mutex? {
+    ~No more than one thread can ever be waiting.
+    =Only one waiting thread can acquire the lock; waking them all would make the others compete and go back to sleep.#The woken thread is not guaranteed to win against a newly arriving thread.
+    ~wake_one transfers the lock directly to a particular waiting thread.
+}
+
+::Wait and wake versus memory safety::The mutex still needs to use atomic state transitions to protect its value even though wait and wake are available. {TRUE#Waiting can return spuriously; the state determines who has the lock.#Correct. Wait and wake avoid busy-looping but do not grant ownership of the protected data.}
+
+::Three-state mutex::Match each mutex state to its meaning in the syscall-avoiding implementation. {
+    =0->unlocked
+    =1->locked without known waiters
+    =2->locked with waiter or waiters
+    ####The extra state helps skip wake_one on uncontended unlocks.
+}
+
+::Contended fast path::Why does the three-state lock try to change zero to one with compare_exchange before using swap to set the state to two? {
+    =It takes an uncontended lock without marking it as having waiters, allowing unlock to skip wake_one.#The slower path uses state two while waiting.
+    ~It guarantees fairness between all waiting threads.
+    ~It turns the protected value into an atomic variable.
+}
+
+::Claiming state two::A contended thread swaps the mutex state to two and observes an old value of zero. What happened? {
+    ~It must wait for another thread to release the mutex.
+    =It acquired the lock by changing an unlocked zero into two.#When it later unlocks, it may still need to wake other waiting threads.
+    ~It read a corrupted lock state.
+}
+
+::Three-state unlock::When does the three-state mutex call wake_one on unlock? {
+    ~Every time it releases a guard.
+    =Only when the previous state returned by swapping to zero was two.#State two indicates that other threads may be waiting.
+    ~Only when the previous state was one.
+}
+
+::Preserving waiters::Why must a thread that acquires the mutex after waiting leave its state at two rather than resetting it to one? {
+    =Other waiting threads might still be asleep and need a future wake_one.#The first compare_exchange to state one is outside the wait loop for this reason.
+    ~State one makes all previous writes invisible.
+    ~State two prevents the thread from releasing the mutex.
+}
+
+::Acquire and release::Which pair of orderings appears in the mutex examples for taking and releasing the lock? {
+    =Acquire when locking, Release when unlocking.#The happens-before relationship comes from the atomic operations, not from the wake and wait calls.
+    ~Relaxed when locking, Relaxed when unlocking.
+    ~Release when locking, Acquire when unlocking.
+}
+
+::Brief spinning::When might briefly spinning before calling wait improve mutex performance? {
+    =When the lock holder is running on another core and will release the lock very soon.#Spinning can avoid syscall overhead, but it may also waste CPU time.
+    ~Whenever a thread holds the mutex for a long time.
+    ~Whenever a different thread is already known to be waiting.
+}
+
+::Spin decision::Why does the chapter's lock_contended loop use a relaxed load while spinning and stop spinning when the state is two? {
+    =Loads can be cheaper than repeated compare_exchange operations, and state two suggests another thread already gave up spinning.#It attempts compare_exchange once more before switching to the wait loop.
+    ~A relaxed load automatically grants the lock when it reads zero.
+    ~A state of two always means the lock is free.
+}
+
+::Benchmark caveat::In the chapter's contended mutex benchmarks, adding a short spin improves the result on one Linux machine but worsens it on another. {TRUE#The best spin duration depends on workload, processor, and OS.#Correct. A benchmark for one workload is not a universal recommendation.}
+
+::Condition variable wait::What sequence does the simple Condvar::wait follow? {
+    =Read the notification counter, unlock by dropping the guard, wait for a counter change, then lock again.#Read before unlocking to avoid sleeping through a notification in between.
+    ~Wait while holding the mutex, then read the counter and unlock.
+    ~Unlock the mutex and always wait without checking any atomic value.
+}
+
+::Notifying a condition variable::How do the simple notify_one and notify_all methods signal waiters? {
+    =Increment the notification counter and wake one or all waiters on that counter.#The counter change lets a thread avoid sleeping if the signal arrives between its unlock and wait.
+    ~Only set a boolean flag without waking anyone.
+    ~Acquire a read lock and spin until every waiter notices.
+}
+
+::Checking the condition::Why should code waiting on a condition variable recheck the protected condition in a loop? {
+    =A wake can be spurious, or the condition may no longer hold by the time the mutex is reacquired.#A signal is a reason to check again, not proof that the condition is true.
+    ~Condvar::wait never relocks the mutex.
+    ~A notification permanently reserves the mutex for the woken thread.
+}
+
+::Condvar wake optimization::Which information can a condition variable track to skip unnecessary wake calls? {
+    ~The name of the thread that last held the mutex.
+    =The number of waiting threads, incremented before waiting and decremented after waking.#notify can skip the counter increment and wake call when there are no waiters.
+    ~The number of protected values of type T.
+}
+
+::Extra wake on notify_one::Why can a single notify_one cause two threads to leave their wait in the simple counter design? {
+    =A not-yet-sleeping thread can observe the changed counter while wake_one wakes another already-sleeping thread.#Both may then compete for the mutex.
+    ~wake_one is defined to always wake exactly two threads.
+    ~All threads share a single guard that is duplicated on wake.
+}
+
+::Thundering herd::What problem can notify_all create if many waiters are waiting for the same mutex? {
+    =They all wake and compete for one lock, then most go back to sleep.#The chapter calls this the thundering herd problem; futex requeuing can help on supported systems.
+    ~Every waiter gets simultaneous mutable access to the data.
+    ~The mutex becomes permanently poisoned.
+}
+
+::RwLock sharing::Why does the chapter require T to be both Send and Sync for its RwLock Sync implementation? {
+    =The value may move across threads, and multiple readers can access it concurrently.#The mutex only needed T to be Send for its Sync implementation because it provides exclusive access.
+    ~The reader guard permits mutable references from all readers.
+    ~AtomicU32 itself is neither Send nor Sync.
+}
+
+::Initial reader-writer state::In the first RwLock design, which state denotes a writer holding the lock? {
+    ~Zero
+    ~One
+    =u32::MAX#Other nonzero states count active readers.
+}
+
+::Reader unlock::In the initial RwLock, which reader should wake a waiting writer? {
+    =The final reader, whose fetch_sub changes the reader count from one to zero.#A writer can acquire the lock only once no readers remain.
+    ~Every reader, including those leaving while other readers remain.
+    ~Only the reader that first acquired the lock.
+}
+
+::Writer unlock::Why does the first RwLock implementation use wake_all after a writer releases the lock? {
+    =It does not know whether readers or writers are waiting and cannot selectively wake only the appropriate group.#The writer first sets the state back to zero with Release ordering.
+    ~All readers and writers may hold the lock simultaneously after release.
+    ~wake_all is needed because a single writer always holds multiple write guards.
+}
+
+::Busy-looping writer::Why can a writer repeatedly fail to sleep when many readers lock and unlock the simple RwLock? {
+    =The changing reader count can differ between a failed compare_exchange and wait, causing wait to return immediately even while readers still hold the lock.#A separate writer_wake_counter is incremented when a writer should be notified, avoiding waits on the fluctuating reader count.
+    ~The writer is required to acquire a read lock first.
+    ~wake_one always wakes all readers instead of writers.
+}
+
+::Writer starvation::What causes writer starvation in a reader-heavy RwLock? {
+    ~A writer can acquire the lock while readers still hold it.
+    =New readers keep entering while at least one reader holds the lock, leaving no gap for the waiting writer.#Blocking new readers when a writer waits gives the writer an opportunity to run.
+    ~A writer_wake_counter has too many available bits.
+}
+
+::Prioritizing the writer::In the final RwLock state encoding, what does an odd state mean for a new reader? {
+    ~The lock is definitely unlocked, so the reader can enter.
+    =It must wait because a writer is waiting or already holds the lock.#Reader counts are doubled; the low bit is reserved for writer priority, and u32::MAX remains write-locked.
+    ~It should increment the state by two immediately.
+}
+
+::Reader count with writer pending::The final RwLock state is seven. How many readers hold the lock, and is a writer waiting? {
+    ~Seven readers and no waiting writer.
+    =Three readers, with a writer waiting.#Three readers contribute six; the low bit adds one for a waiting writer.
+    ~No readers and one writer holding the lock.
+}
+
+::Design trade-off::Explain why the mutex tracks waiters with a third state and why the final RwLock gives waiting writers priority. {####A strong answer notes that tracking mutex waiters allows an uncontended unlock to skip an unnecessary wake call, which can avoid a syscall. The RwLock marks a waiting writer so new readers stop acquiring the lock; otherwise, a continuous stream of readers could starve the writer. Both designs add bookkeeping to improve behavior under their intended workloads.}
