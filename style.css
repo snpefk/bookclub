@@ -374,6 +374,32 @@ ul.in-progress > li {
     height: auto;
 }
 
+.diploma-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.diploma-gallery figure {
+    margin: 0;
+    padding: 0.75rem;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.55);
+    text-align: center;
+}
+
+.diploma-gallery img {
+    display: block;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.diploma-gallery figcaption { margin-top: 0.7rem; }
+.diploma-gallery a { color: #fff8dc; }
+
 /* Chapter links and the standalone quiz share the site's dark palette. */
 .book-info h4 { margin: 0.75rem 0 0; }
 .chapter-list { width: 100%; margin: 0; }
@@ -433,4 +459,5 @@ ul.in-progress > li {
     body h2, body > ul { width: 100%; box-sizing: border-box; }
     audio { width: 100%; padding: 0; }
     .subway-gif { display: none; }
+    .diploma-gallery { grid-template-columns: 1fr; max-width: 340px; }
 }
