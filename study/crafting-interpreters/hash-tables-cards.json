@@ -1,0 +1,386 @@
+{
+  "book": "Crafting Interpreters",
+  "author": "Robert Nystrom",
+  "chapter": 20,
+  "title": "Hash Tables",
+  "url": "https://craftinginterpreters.com/hash-tables.html",
+  "deck": "Crafting Interpreters::Chapter 20 - Hash Tables",
+  "cards": [
+    {
+      "id": "map-contract",
+      "front": "What does a hash table associate, and what identifies an entry?",
+      "back": "It associates keys with values. The key identifies an entry and is used to retrieve its value.",
+      "section": "20",
+      "anchor": "top",
+      "topic": "fundamentals"
+    },
+    {
+      "id": "overwrite",
+      "front": "What happens when you insert a new value for a key already in a hash table?",
+      "back": "The existing value is replaced; a second entry for the same key is not created.",
+      "section": "20",
+      "anchor": "top",
+      "topic": "fundamentals"
+    },
+    {
+      "id": "complexity",
+      "front": "Is hash-table lookup guaranteed O(1)?",
+      "back": "No. With well-distributed hashes and controlled load it is expected/average O(1) in the number of entries. A long collision chain or probe sequence can make a lookup O(n). Hashing and key-comparison costs are additional.",
+      "section": "20 and 20.2.1",
+      "anchor": "separate-chaining",
+      "topic": "fundamentals"
+    },
+    {
+      "id": "string-hash-cost",
+      "front": "Why can a hash-table lookup for a fresh length-m string still require O(m) work even when bucket probing is expected O(1)?",
+      "back": "Computing the string's hash requires reading its characters. Expected constant bucket-search cost does not make hashing a fresh arbitrary-length string free.",
+      "section": "20.4.1",
+      "anchor": "hashing-strings",
+      "topic": "hashing"
+    },
+    {
+      "id": "hash-goals",
+      "front": "What three qualities does the chapter seek in a non-cryptographic hash function?",
+      "back": "Deterministic, well-distributed for typical inputs, and fast. These goals do not imply cryptographic security.",
+      "section": "20.3",
+      "anchor": "hash-functions",
+      "topic": "hashing"
+    },
+    {
+      "id": "bucket-index",
+      "front": "How does Chapter 20 map a hash code to a bucket index?",
+      "back": "index = hash % capacity, with positive capacity. Reducing the hash to the bucket range can make distinct hashes land in the same bucket.",
+      "section": "20.4.2",
+      "anchor": "inserting-entries",
+      "topic": "hashing"
+    },
+    {
+      "id": "collision-vs-equality",
+      "front": "Two keys have equal hash codes. Does that prove the keys are equal?",
+      "back": "No. Different keys can have the same hash. Equality still needs a correct key comparison. Conversely, keys considered equal must have equal hashes for the table to work correctly.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "hashing"
+    },
+    {
+      "id": "load-factor",
+      "front": "What is a hash table's ordinary live-entry load factor?",
+      "back": "Number of live entries divided by number of buckets. In the chapter's final tombstone-based clox table, the growth counter instead counts live entries plus tombstones.",
+      "section": "20.1.1 and 20.4.6",
+      "anchor": "load-factor-and-wrapped-keys",
+      "topic": "fundamentals"
+    },
+    {
+      "id": "low-load-not-collision-free",
+      "front": "Does keeping a hash table mostly empty eliminate the need for collision handling?",
+      "back": "No. Distinct keys can still map to the same bucket even at low load. More buckets reduce collision likelihood, not the requirement to handle collisions correctly.",
+      "section": "20.2",
+      "anchor": "collision-resolution",
+      "topic": "collisions"
+    },
+    {
+      "id": "separate-chaining",
+      "front": "How does separate chaining resolve a bucket collision?",
+      "back": "The bucket holds a collection of entries, commonly a linked list. Lookup searches that collection for a matching key.",
+      "section": "20.2.1",
+      "anchor": "separate-chaining",
+      "topic": "collisions"
+    },
+    {
+      "id": "open-addressing",
+      "front": "Where are colliding entries stored in open addressing?",
+      "back": "In other buckets of the same array, found by following a probe sequence. Entries do not require a separate linked list outside the array.",
+      "section": "20.2.2",
+      "anchor": "open-addressing",
+      "topic": "collisions"
+    },
+    {
+      "id": "linear-probing",
+      "front": "What is the next bucket in the chapter's linear probing scheme?",
+      "back": "(index + 1) % capacity: advance one bucket and wrap to bucket zero after the last bucket. Insertion and lookup must follow the same probe sequence.",
+      "section": "20.2.2 and 20.4.2",
+      "anchor": "open-addressing",
+      "topic": "collisions"
+    },
+    {
+      "id": "locality",
+      "front": "Why is linear probing often cache-friendly?",
+      "back": "It examines neighboring entries in a contiguous array instead of chasing pointers to scattered nodes.",
+      "section": "20.2.2",
+      "anchor": "open-addressing",
+      "topic": "collisions"
+    },
+    {
+      "id": "clustering",
+      "front": "What performance problem can linear probing create as occupied runs grow?",
+      "back": "Clustering: adjacent occupied buckets form long runs, so later lookups and insertions may have to inspect many buckets.",
+      "section": "20.2.2",
+      "anchor": "open-addressing",
+      "topic": "collisions"
+    },
+    {
+      "id": "empty-terminates",
+      "front": "In the chapter's linear-probed table, what does reaching a truly empty bucket prove during lookup?",
+      "back": "The key is absent. A valid insertion following the same probe sequence would not have skipped that truly empty bucket. A tombstone is not truly empty.",
+      "section": "20.4.2 and 20.4.5",
+      "anchor": "deleting-entries",
+      "topic": "tombstones"
+    },
+    {
+      "id": "delete-breaks-chain",
+      "front": "Why can't deletion simply turn a bucket into an ordinary empty bucket in this linear-probed table?",
+      "back": "That could break a probe sequence: a later lookup would stop at the new empty bucket and miss keys displaced beyond it.",
+      "section": "20.4.5",
+      "anchor": "deleting-entries",
+      "topic": "tombstones"
+    },
+    {
+      "id": "tombstone-meaning",
+      "front": "What does a tombstone mean to lookup versus insertion?",
+      "back": "Lookup must continue past it. Insertion may reuse it, but must first establish that the key does not already occur later in the probe sequence.",
+      "section": "20.4.5",
+      "anchor": "deleting-entries",
+      "topic": "tombstones"
+    },
+    {
+      "id": "clox-entry-states",
+      "front": "How does clox distinguish an empty bucket from a tombstone?",
+      "back": "Both have key == NULL. An empty bucket has a nil value; a tombstone has a true Boolean value. A live entry has a non-NULL key, even if its stored value is nil.",
+      "section": "20.4.5",
+      "anchor": "deleting-entries",
+      "topic": "implementation"
+    },
+    {
+      "id": "remember-first-tombstone",
+      "front": "Why does findEntry() remember the FIRST tombstone while continuing to probe?",
+      "back": "If the key is found later, it must return that existing entry. If a truly empty bucket proves absence, the first tombstone is the reusable insertion slot.",
+      "section": "20.4.5",
+      "anchor": "deleting-entries",
+      "topic": "tombstones"
+    },
+    {
+      "id": "count-meaning",
+      "front": "After tombstone support, what does clox Table.count count?",
+      "back": "Live entries plus tombstones, not just live key/value pairs. It measures buckets that are not truly empty for the growth policy.",
+      "section": "20.4.6",
+      "anchor": "counting-tombstones",
+      "topic": "tombstones"
+    },
+    {
+      "id": "delete-count",
+      "front": "Why does deleting a live clox table entry NOT decrement Table.count?",
+      "back": "Deletion replaces a live entry with a tombstone. The bucket still counts as occupied for the growth policy, so live-plus-tombstone count is unchanged.",
+      "section": "20.4.6",
+      "anchor": "counting-tombstones",
+      "topic": "tombstones"
+    },
+    {
+      "id": "count-on-insert",
+      "front": "When does the final Chapter 20 tableSet() increment Table.count?",
+      "back": "Only when a new key occupies a truly empty bucket. Reusing a tombstone or replacing an existing key's value leaves count unchanged, apart from any preceding rebuild.",
+      "section": "20.4.6",
+      "anchor": "counting-tombstones",
+      "topic": "implementation"
+    },
+    {
+      "id": "tombstone-termination",
+      "front": "Why must clox's growth policy count tombstones as occupied?",
+      "back": "Ignoring them could allow all buckets to become live entries or tombstones, with no truly empty bucket to terminate an unsuccessful probe. Counting them preserves empty buckets through timely growth/rebuilding.",
+      "section": "20.4.6",
+      "anchor": "counting-tombstones",
+      "topic": "tombstones"
+    },
+    {
+      "id": "resize-reinsert",
+      "front": "Why can't a growing hash table simply copy entries to the same indices of a larger array?",
+      "back": "The preferred bucket depends on hash % capacity. Changing capacity changes preferred buckets and collision/probe sequences, so live entries must be placed again using the new capacity.",
+      "section": "20.4.3",
+      "anchor": "allocating-and-resizing",
+      "topic": "resizing"
+    },
+    {
+      "id": "resize-not-rehash-bytes",
+      "front": "Does resizing clox's table require hashing every string's characters again?",
+      "back": "No. Each immutable ObjString already caches its hash code. Resizing recomputes bucket placement and probe sequences using that cached hash and the new capacity.",
+      "section": "20.4.1 and 20.4.3",
+      "anchor": "allocating-and-resizing",
+      "topic": "resizing"
+    },
+    {
+      "id": "resize-tombstones",
+      "front": "What happens to tombstones and Table.count when clox rebuilds a table?",
+      "back": "Only live entries are reinserted; tombstones are discarded. Count is reset and recomputed, so immediately after rebuilding it equals the number of live entries.",
+      "section": "20.4.6",
+      "anchor": "counting-tombstones",
+      "topic": "resizing"
+    },
+    {
+      "id": "growth-rule",
+      "front": "What is Chapter 20's clox growth check before tableSet() searches for its key?",
+      "back": "Grow if count + 1 > capacity * 0.75. The 0.75 threshold is this implementation's choice, not a universal optimum. Because the check happens first, even an overwrite can trigger growth.",
+      "section": "20.4.2 and 20.4.6",
+      "anchor": "inserting-entries",
+      "topic": "implementation"
+    },
+    {
+      "id": "amortized-growth",
+      "front": "How can hash-table insertions be expected amortized O(1) even though a resize is expensive?",
+      "back": "Geometric growth makes rebuilds infrequent, spreading their cost over many insertions. A single rebuilding insertion is not O(1); the claim also assumes hashing/probing behaves well.",
+      "section": "20.4.2–20.4.3",
+      "anchor": "allocating-and-resizing",
+      "topic": "resizing"
+    },
+    {
+      "id": "cache-hash",
+      "front": "Why can ObjString safely cache its hash code for its lifetime?",
+      "back": "Lox strings are immutable, so their contents and content-derived hash do not change. Mutating a key without updating its placement could make it unreachable in a hash table.",
+      "section": "20.4.1",
+      "anchor": "hashing-strings",
+      "topic": "hashing"
+    },
+    {
+      "id": "fnv-step",
+      "front": "In the chapter's FNV-1a string hash, what two operations process each byte, and in what order?",
+      "back": "XOR the byte into the running hash, then multiply by the FNV prime using unsigned arithmetic. Remember the mixing order, not the numeric constants.",
+      "section": "20.4.1",
+      "anchor": "hashing-strings",
+      "topic": "hashing"
+    },
+    {
+      "id": "intern-invariant",
+      "front": "What invariant does string interning establish within clox's VM?",
+      "back": "Each distinct character sequence has one canonical string object. Creating the same text again returns the already interned object.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "interning"
+    },
+    {
+      "id": "pointer-equality",
+      "front": "Why can clox compare strings with pointer equality AFTER interning all of them?",
+      "back": "Equal text is represented by the same canonical object. Thus pointer identity matches textual equality within that intern pool. Without the invariant, equal strings can live at different addresses.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "interning"
+    },
+    {
+      "id": "intern-lookup-input",
+      "front": "Why does tableFindString() accept raw characters, length, and hash instead of using ordinary pointer-key tableGet()?",
+      "back": "It is trying to find a canonical string before allocating its ObjString. Ordinary lookup expects an already interned object key and uses pointer equality, which cannot deduplicate raw text.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "interning"
+    },
+    {
+      "id": "intern-content-check",
+      "front": "Which checks establish that a candidate interned string matches raw input text?",
+      "back": "Matching length, matching hash, and matching character bytes. Length and hash are fast rejection tests; equal hashes alone are not proof.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "interning"
+    },
+    {
+      "id": "intern-set",
+      "front": "Why do entries in clox's interned-string table use nil as their stored value?",
+      "back": "The table is being used as a set: only the canonical string keys matter. A nil value with a non-NULL key is a live entry, not an empty bucket.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "interning"
+    },
+    {
+      "id": "copy-hit",
+      "front": "If copyString() finds that its input text is already interned, what does it return?",
+      "back": "The existing canonical ObjString, without allocating a duplicate string object or copying another character buffer for it.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "interning"
+    },
+    {
+      "id": "take-hit",
+      "front": "If takeString() finds an existing interned match, what must it do with the incoming owned character buffer?",
+      "back": "Free that redundant buffer, then return the existing interned object. Ownership was transferred to takeString(), so simply returning without freeing it would leak memory.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "interning"
+    },
+    {
+      "id": "intern-tradeoff",
+      "front": "What performance tradeoff does string interning make in this interpreter?",
+      "back": "Extra work to deduplicate strings at creation time buys cheap pointer-based equality later, particularly useful for repeated variable, field, and method-name lookups.",
+      "section": "20.5",
+      "anchor": "string-interning",
+      "topic": "interning"
+    },
+    {
+      "id": "trace-wraparound",
+      "front": "Trace: capacity 8, initially empty, no resizing. Distinct keys A, B, C all prefer bucket 7. Insert A, then B, then C using linear probing. Where do they land?",
+      "back": "A at 7, B at 0, C at 1. Each collision advances one bucket, wrapping from 7 to 0.",
+      "section": "20.2.2",
+      "anchor": "open-addressing",
+      "topic": "collisions",
+      "kind": "trace"
+    },
+    {
+      "id": "trace-delete-chain",
+      "front": "Trace: A, B, C occupy buckets 2, 3, 4 and all prefer bucket 2. Delete B, leaving a tombstone at 3. Which buckets does lookup of C examine?",
+      "back": "2, 3, 4. It skips A, continues past B's tombstone, and finds C at 4. Clearing bucket 3 to truly empty would incorrectly hide C.",
+      "section": "20.4.5",
+      "anchor": "deleting-entries",
+      "topic": "tombstones",
+      "kind": "trace"
+    },
+    {
+      "id": "trace-update-after-tombstone",
+      "front": "Trace: a key K prefers bucket 2. Bucket 2 is a tombstone, K already occupies 3, and 4 is empty. Without resizing, tableSet(K, newValue) writes to which bucket?",
+      "back": "Bucket 3. It must continue past the tombstone and update the existing K, not create a duplicate K at 2.",
+      "section": "20.4.5",
+      "anchor": "deleting-entries",
+      "topic": "tombstones",
+      "kind": "trace"
+    },
+    {
+      "id": "trace-reuse-after-search",
+      "front": "Trace: new key K prefers bucket 2. Bucket 2 is a tombstone, 3 holds another key, and 4 is truly empty. Without resizing, where is K inserted, and when is its absence established?",
+      "back": "Insert K at 2, but only after reaching empty bucket 4 to prove K is absent. Bucket 2 is remembered as the first reusable tombstone.",
+      "section": "20.4.5",
+      "anchor": "deleting-entries",
+      "topic": "tombstones",
+      "kind": "trace"
+    },
+    {
+      "id": "trace-growth",
+      "front": "Trace: clox capacity is 8, count is 6, and maximum load is 0.75. What happens BEFORE the next tableSet() searches for its key?",
+      "back": "It grows: count + 1 is 7, which exceeds 8 * 0.75 = 6. The check runs even if the call ultimately overwrites an existing key.",
+      "section": "20.4.2",
+      "anchor": "inserting-entries",
+      "topic": "resizing",
+      "kind": "trace"
+    },
+    {
+      "id": "trace-count",
+      "front": "Trace: capacity 16, 4 live entries, 2 tombstones. Without resizing, insert a NEW key into a tombstone. What are the new live-entry, tombstone, and clox count values?",
+      "back": "5 live entries, 1 tombstone, count 6. Reusing a tombstone changes the live/deleted split but not their sum.",
+      "section": "20.4.6",
+      "anchor": "counting-tombstones",
+      "topic": "tombstones",
+      "kind": "trace"
+    },
+    {
+      "id": "trace-bucket-change",
+      "front": "Trace: a key's cached hash is 13. What is its PREFERRED bucket at capacity 8 versus capacity 16, before considering collisions?",
+      "back": "At capacity 8: 13 % 8 = 5. At capacity 16: 13 % 16 = 13. The hash stays the same, but its preferred bucket changes.",
+      "section": "20.4.3",
+      "anchor": "allocating-and-resizing",
+      "topic": "resizing",
+      "kind": "trace"
+    },
+    {
+      "id": "trace-rebuild-count",
+      "front": "Trace: a clox table has 4 live entries and 2 tombstones (count 6). It is rebuilt into a larger array, with no new key inserted yet. What is count immediately afterward?",
+      "back": "4. Rebuilding reinserts only the four live entries and discards both tombstones.",
+      "section": "20.4.6",
+      "anchor": "counting-tombstones",
+      "topic": "resizing",
+      "kind": "trace"
+    }
+  ]
+}

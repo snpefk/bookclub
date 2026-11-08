@@ -25,6 +25,8 @@ Only `books/` is excluded. Keep study questions and flashcards outside it so oth
 
 ## Current study materials
 
+**Crafting Interpreters — Robert Nystrom:** [46 Anki cards for Chapter 20: Hash Tables](anki/crafting-interpreters/chapter-20-hash-tables.tsv), with [study/import instructions and a preview](study/crafting-interpreters/hash-tables-anki.md). Also includes an [annotated reference catalog](study/crafting-interpreters/links.md) covering 648 link destinations, including 138 external resources. See [the reference-library guide](study/crafting-interpreters/README.md) for local PDF organization and export instructions. The 39 exported PDFs, HTML snapshots, and original ZIP are local-only under `books/crafting-interpreters/`; the site links to the original online chapters rather than publishing those files.
+
 **The Hundred-Page Machine Learning Book — Chapters 1–4:** 84 questions with explanations and 107 Anki Basic cards. Six questions are self-assessed essays; the remaining 78 are automatically scored. See [the study guide](study/hundred-page-machine-learning/README.md) for accuracy notes and rebuilding.
 
 Download either the [combined Anki file](anki/hundred-page-machine-learning/chapters-01-04.tsv) or the individual chapter files linked on the home page, **not both**. In Anki Desktop use File → Import and confirm the Front/Back/Tags mapping in the preview. No application integration or live Anki import is required.
