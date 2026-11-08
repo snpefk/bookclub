@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Book Club Reads</title>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="style.css?v=4"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
@@ -17,7 +17,15 @@
   <source src="img/image.mp3" type="audio/mpeg">
 </audio>
 
-<h2>👑 Done 👑</h2>
+<main>
+<div class="book-tabs" role="tablist" aria-label="Reading status" hidden>
+    <button id="tab-finished" type="button" role="tab" aria-controls="finished" aria-selected="false" tabindex="-1">Finished</button>
+    <button id="tab-in-progress" type="button" role="tab" aria-controls="in-progress" aria-selected="true" tabindex="0">In Progress</button>
+    <button id="tab-backlog" type="button" role="tab" aria-controls="backlog" aria-selected="false" tabindex="-1">Backlog</button>
+</div>
+
+<section id="finished" class="book-panel" role="tabpanel" aria-labelledby="tab-finished" tabindex="0">
+<h2>👑 Finished 👑</h2>
 <ul class="done">
     <li class="rust-atomics-book">
         <img src="https://mara.nl/atomics/cover.jpg" alt="Rust Atomics and Locks cover"/>
@@ -140,6 +148,9 @@
     </li>
 </ul>
 
+</section>
+
+<section id="in-progress" class="book-panel" role="tabpanel" aria-labelledby="tab-in-progress" tabindex="0">
 <h2>📘 In Progress 📘</h2>
 <ul class="in-progress">
     <li>
@@ -178,6 +189,9 @@
     </li>
 </ul>
 
+</section>
+
+<section id="backlog" class="book-panel" role="tabpanel" aria-labelledby="tab-backlog" tabindex="0">
 <h2>📚 Backlog 📚</h2>
 <ul class="backlog">
     <li>
@@ -236,10 +250,13 @@
     </li>
 </ul>
 
+</section>
+</main>
+
 <div class="subway-gif">
     <img src="img/subway.gif" alt="Subway Surfer"/>
 </div>
 
-<script type="module" src="home.mjs?v=3"></script>
+<script type="module" src="home.mjs?v=4"></script>
 </body>
 </html>

@@ -1,3 +1,7 @@
+import { initBookTabs } from './tabs.mjs';
+
+initBookTabs();
+
 const { books, scoreKey } = await import(`./quizzes.mjs?updated=${Date.now()}`);
 
 for (const book of books) {
