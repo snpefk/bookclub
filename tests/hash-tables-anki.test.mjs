@@ -112,6 +112,9 @@ test('card section anchors exist in the local chapter when available', { skip: !
 test('homepage makes the deck discoverable without registering a nonexistent quiz', () => {
     const index = read('index.html');
     assert.ok(index.includes(`href="${tsv}" download`));
-    assert.ok(index.includes('href="study/crafting-interpreters/hash-tables-anki.md"'));
+    assert.ok(!index.includes('href="study/crafting-interpreters/hash-tables-anki.md"'));
+    const section = index.match(/<p class="study-downloads">\s*<a href="anki\/crafting-interpreters\/chapter-20-hash-tables\.tsv"[\s\S]*?<\/p>/);
+    assert.ok(section);
+    assert.equal([...section[0].matchAll(/<a\b/g)].length, 1);
     assert.ok(!/\b(?:href|src)=["']books\//.test(index));
 });

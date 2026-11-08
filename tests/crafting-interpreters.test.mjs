@@ -27,7 +27,7 @@ test('Crafting Interpreters catalog includes every counted destination and an ex
 
 test('homepage keeps Anki access but does not expose the annotated catalog', () => {
     const index = read('index.html');
-    assert.ok(index.includes('href="https://craftinginterpreters.com/contents.html"'));
+    assert.ok(!index.includes('href="https://craftinginterpreters.com/contents.html"'));
     assert.ok(!index.includes(`href="${study}links.md"`));
     assert.ok(!index.includes(`href="${study}README.md"`));
     assert.ok(index.includes('href="anki/crafting-interpreters/chapter-20-hash-tables.tsv" download'));
