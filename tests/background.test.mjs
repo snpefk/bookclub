@@ -12,7 +12,7 @@ test('the shared background is fixed to the viewport instead of the reading-list
     assert.ok(layer.includes("url('img/bckg.jpg')"));
     assert.match(css, /body\s*\{[^}]*isolation:\s*isolate/);
     for (const file of ['index.html', 'quiz.html']) {
-        assert.ok(readFileSync(new URL(`../${file}`, import.meta.url), 'utf8').includes('style.css?v=5'));
+        assert.ok(readFileSync(new URL(`../${file}`, import.meta.url), 'utf8').includes('style.css?v=6'));
     }
 });
 

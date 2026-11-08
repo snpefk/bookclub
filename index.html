@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Book Club Reads</title>
-    <link rel="stylesheet" href="style.css?v=5"/>
+    <link rel="stylesheet" href="style.css?v=6"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
@@ -18,9 +18,48 @@
 </audio>
 
 <main>
+<section id="in-progress" class="book-panel" aria-labelledby="in-progress-title">
+<h2 id="in-progress-title">📘 In Progress 📘</h2>
+<ul class="in-progress">
+    <li>
+        <img src="https://themlbook.com/img/book.png" alt="The Hundred-Page Machine Learning Book cover"/>
+        <div class="book-info" data-quiz-book="hundred-page-machine-learning">
+            <h3>
+                <a href="https://themlbook.com/" target="_blank">The Hundred-Page Machine Learning Book – Andriy Burkov</a>
+            </h3>
+            <div class="footer">
+                <div class="date">In Progress</div>
+            </div>
+            <h4>Chapter tests &amp; Anki cards</h4>
+            <ul class="chapter-list">
+                <li data-quiz-chapter="hundred-page-machine-learning-chapter-01">
+                    <a href="quiz.html?chapter=hundred-page-machine-learning-chapter-01&amp;v=3">Chapter 1: Introduction — test</a>
+                    <a class="anki-download" href="anki/hundred-page-machine-learning/chapter-01.tsv" download aria-label="Download Anki cards for Chapter 1">Anki cards</a>
+                </li>
+                <li data-quiz-chapter="hundred-page-machine-learning-chapter-02">
+                    <a href="quiz.html?chapter=hundred-page-machine-learning-chapter-02&amp;v=3">Chapter 2: Notation and Definitions — test</a>
+                    <a class="anki-download" href="anki/hundred-page-machine-learning/chapter-02.tsv" download aria-label="Download Anki cards for Chapter 2">Anki cards</a>
+                </li>
+                <li data-quiz-chapter="hundred-page-machine-learning-chapter-03">
+                    <a href="quiz.html?chapter=hundred-page-machine-learning-chapter-03&amp;v=3">Chapter 3: Fundamental Algorithms — test</a>
+                    <a class="anki-download" href="anki/hundred-page-machine-learning/chapter-03.tsv" download aria-label="Download Anki cards for Chapter 3">Anki cards</a>
+                </li>
+                <li data-quiz-chapter="hundred-page-machine-learning-chapter-04">
+                    <a href="quiz.html?chapter=hundred-page-machine-learning-chapter-04&amp;v=3">Chapter 4: Anatomy of a Learning Algorithm — test</a>
+                    <a class="anki-download" href="anki/hundred-page-machine-learning/chapter-04.tsv" download aria-label="Download Anki cards for Chapter 4">Anki cards</a>
+                </li>
+            </ul>
+            <p class="study-downloads">
+                <a href="anki/hundred-page-machine-learning/chapters-01-04.tsv" download>Download all 107 Anki cards (Chapters 1–4)</a><br/>
+                Import either the combined file or individual chapters, not both. In Anki Desktop, use File → Import and confirm Front / Back / Tags.
+            </p>
+        </div>
+    </li>
+</ul>
+</section>
+
 <div class="book-tabs" role="tablist" aria-label="Reading status" hidden>
-    <button id="tab-finished" type="button" role="tab" aria-controls="finished" aria-selected="false" tabindex="-1">Finished</button>
-    <button id="tab-in-progress" type="button" role="tab" aria-controls="in-progress" aria-selected="true" tabindex="0">In Progress</button>
+    <button id="tab-finished" type="button" role="tab" aria-controls="finished" aria-selected="true" tabindex="0">Finished</button>
     <button id="tab-backlog" type="button" role="tab" aria-controls="backlog" aria-selected="false" tabindex="-1">Backlog</button>
 </div>
 
@@ -146,47 +185,6 @@
 
 </section>
 
-<section id="in-progress" class="book-panel" role="tabpanel" aria-labelledby="tab-in-progress" tabindex="0">
-<h2>📘 In Progress 📘</h2>
-<ul class="in-progress">
-    <li>
-        <img src="https://themlbook.com/img/book.png" alt="The Hundred-Page Machine Learning Book cover"/>
-        <div class="book-info" data-quiz-book="hundred-page-machine-learning">
-            <h3>
-                <a href="https://themlbook.com/" target="_blank">The Hundred-Page Machine Learning Book – Andriy Burkov</a>
-            </h3>
-            <div class="footer">
-                <div class="date">In Progress</div>
-            </div>
-            <h4>Chapter tests &amp; Anki cards</h4>
-            <ul class="chapter-list">
-                <li data-quiz-chapter="hundred-page-machine-learning-chapter-01">
-                    <a href="quiz.html?chapter=hundred-page-machine-learning-chapter-01&amp;v=3">Chapter 1: Introduction — test</a>
-                    <a class="anki-download" href="anki/hundred-page-machine-learning/chapter-01.tsv" download aria-label="Download Anki cards for Chapter 1">Anki cards</a>
-                </li>
-                <li data-quiz-chapter="hundred-page-machine-learning-chapter-02">
-                    <a href="quiz.html?chapter=hundred-page-machine-learning-chapter-02&amp;v=3">Chapter 2: Notation and Definitions — test</a>
-                    <a class="anki-download" href="anki/hundred-page-machine-learning/chapter-02.tsv" download aria-label="Download Anki cards for Chapter 2">Anki cards</a>
-                </li>
-                <li data-quiz-chapter="hundred-page-machine-learning-chapter-03">
-                    <a href="quiz.html?chapter=hundred-page-machine-learning-chapter-03&amp;v=3">Chapter 3: Fundamental Algorithms — test</a>
-                    <a class="anki-download" href="anki/hundred-page-machine-learning/chapter-03.tsv" download aria-label="Download Anki cards for Chapter 3">Anki cards</a>
-                </li>
-                <li data-quiz-chapter="hundred-page-machine-learning-chapter-04">
-                    <a href="quiz.html?chapter=hundred-page-machine-learning-chapter-04&amp;v=3">Chapter 4: Anatomy of a Learning Algorithm — test</a>
-                    <a class="anki-download" href="anki/hundred-page-machine-learning/chapter-04.tsv" download aria-label="Download Anki cards for Chapter 4">Anki cards</a>
-                </li>
-            </ul>
-            <p class="study-downloads">
-                <a href="anki/hundred-page-machine-learning/chapters-01-04.tsv" download>Download all 107 Anki cards (Chapters 1–4)</a><br/>
-                Import either the combined file or individual chapters, not both. In Anki Desktop, use File → Import and confirm Front / Back / Tags.
-            </p>
-        </div>
-    </li>
-</ul>
-
-</section>
-
 <section id="backlog" class="book-panel" role="tabpanel" aria-labelledby="tab-backlog" tabindex="0">
 <h2>📚 Backlog 📚</h2>
 <ul class="backlog">
@@ -253,6 +251,6 @@
     <img src="img/subway.gif" alt="Subway Surfer"/>
 </div>
 
-<script type="module" src="home.mjs?v=4"></script>
+<script type="module" src="home.mjs?v=5"></script>
 </body>
 </html>

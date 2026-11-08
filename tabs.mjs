@@ -18,8 +18,7 @@ export function initBookTabs(root = document, view = window) {
 
     function fromHash() {
         const index = panels.findIndex(panel => `#${panel.id}` === view.location.hash);
-        const fallback = panels.findIndex(panel => panel.id === 'in-progress');
-        select(index >= 0 ? index : Math.max(0, fallback));
+        select(index >= 0 ? index : 0);
     }
 
     tabs.forEach((tab, index) => {

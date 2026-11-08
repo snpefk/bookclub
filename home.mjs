@@ -1,4 +1,4 @@
-import { initBookTabs } from './tabs.mjs';
+import { initBookTabs } from './tabs.mjs?v=2';
 
 initBookTabs();
 
