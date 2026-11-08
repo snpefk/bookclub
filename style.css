@@ -411,6 +411,8 @@ ul.in-progress > li {
 }
 .chapter-list a, .quiz-page a { color: #add8e6; }
 .chapter-list span { color: #eee; }
+.chapter-list .anki-download { margin-left: 0.75rem; white-space: nowrap; }
+.study-downloads { font-size: 0.9rem; line-height: 1.5; margin: 0.5rem 0 0; }
 
 .quiz-page { max-width: 52rem; margin: 2rem auto; }
 .quiz-page h1 { margin: 2rem 0; }

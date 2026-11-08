@@ -1,0 +1,123 @@
+// Original study questions based on Andriy Burkov, 2019.
+$CATEGORY: Chapter 1 — Introduction
+
+::Learning from examples::Which activity best matches the chapter's definition of machine learning? {
+    ~Using a computer for any arithmetic operation
+    ~Writing every decision rule by hand without using examples
+    =Building a statistical model from examples to solve a practical problem
+    ~Storing files without deriving a predictive or descriptive model
+    ####Machine learning uses a dataset to algorithmically build a statistical model for a practical task. Source\: section 1.1.
+}
+
+::Learning settings::Match each dataset or interaction setting to its learning type. {
+    =Emails with spam labels -> Supervised
+    =Unlabeled customer vectors to group -> Unsupervised
+    =A few labeled images plus many unlabeled images -> Semi-supervised
+    =An agent taking actions and receiving rewards -> Reinforcement
+    ####The distinctions concern available supervision and, in reinforcement learning, sequential interaction and reward. Source\: section 1.2.
+}
+
+::Consistent features::In a dataset of people, feature position 2 contains weight in kilograms. What must be true of position 2 in other examples? {
+    =It must represent the same kind of information with the same meaning and units
+    ~Its meaning should depend on the target label
+    ~It may instead contain age if the model can infer the meaning
+    ~It must contain the same numerical weight for every person
+    ####A coordinate must have consistent semantics across examples; its value can differ. Source\: section 1.2.1.
+}
+
+::Unsupervised output::Which task is an example of dimensionality reduction? {
+    =Mapping each input vector to a vector with fewer features
+    ~Selecting an action to maximize future reward
+    ~Predicting a provided spam label
+    ~Adding a target label as an extra feature
+    ####Dimensionality reduction transforms the representation without requiring target labels. Source\: section 1.2.2.
+}
+
+::Why unlabeled data helps::Why might adding unlabeled examples improve a semi-supervised model? {
+    =They can reveal structure in the input distribution that helps learn from the labeled examples
+    ~They guarantee that no future input will be misclassified
+    ~They remove all need for labeled examples in every problem
+    ~Every unlabeled example automatically supplies a correct target
+    ####Additional input-distribution information can help, but improvement is not guaranteed. Source\: section 1.2.3.
+}
+
+::Policy::What does a reinforcement-learning policy map, in the chapter's description? {
+    ~A label to a feature-vector dimension
+    =A state representation to an action
+    ~A test score to an unconditional reward
+    ~An action to a training-set row number
+    ####A policy chooses actions based on state, aiming at a long-term reward objective rather than merely an immediate payoff. Source\: section 1.2.4.
+}
+
+::Bag of words dimension::A binary bag-of-words dictionary contains 20,000 words. A dataset contains 10,000 emails. How many features does EACH email vector have? {
+    #20000:0
+    ####Dimensionality is the dictionary size; the number of examples is a separate quantity. Source\: section 1.3.
+}
+
+::Binary word presence::In the chapter's binary bag-of-words representation, an email contains the dictionary word "offer" five times. What is that word's feature value? {
+    #1:0
+    ####This particular representation records presence, not frequency or word order. Source\: section 1.3.
+}
+
+::Training versus prediction::Which sequence describes prediction with an already trained spam SVM? {
+    ~Choose a new dictionary ordering independently for each email
+    ~Optimize the model parameters using the unknown true label of the new email
+    ~Relabel all training examples before every prediction
+    =Apply the training-time feature encoding, compute the learned linear score, and take its sign
+    ####Training finds the parameters. Prediction applies the fixed model to a consistently encoded new input. Source\: section 1.3.
+}
+
+::SVM sign calculation::Use the chapter's convention\: score is w dot x minus b. With w \= [2, -1], x \= [3, 1], and b \= 2, what label (+1 or -1) is predicted? {
+    #1:0
+    ####The score is 2*3 - 1*1 - 2 \= 3, so its sign is +1. A score exactly zero would require a tie convention. Source\: section 1.3.
+}
+
+::Hyperplane dimension::In a 12-dimensional input space, how many dimensions does a nondegenerate linear decision hyperplane have? {
+    #11:0
+    ####One independent linear equality reduces the dimension by one. Source\: section 1.3.
+}
+
+::Hard-margin constraint::Which is the compact hard-margin SVM constraint for every training example in the chapter's notation? {
+    ~The norm of w must equal the number of examples
+    ~w dot x_i - b \= 0 for all examples
+    ~y_i * (w dot x_i - b) <\= 0
+    =y_i * (w dot x_i - b) >\= 1
+    ####For labels +1 and -1, this enforces both correct classification and a score margin of at least one. Source\: section 1.3.
+}
+
+::Margin width::For the canonical hard-margin constraints, the distance between the two supporting hyperplanes is 2 / ||w||. If ||w|| is 4, what is the full margin width? {
+    #0.5:0
+    ####The width is 2/4 \= 0.5. Minimizing the norm increases this margin subject to the constraints. Source\: section 1.3.
+}
+
+::Beyond accuracy::Select TWO practical considerations the chapter gives in addition to predictive accuracy. {
+    ~%50%Model-building time
+    ~%-50%Whether all training labels are identical
+    ~%50%Prediction-processing time
+    ~%-50%Whether the filename is alphabetically first
+    ####Training cost and inference latency can justify choosing a somewhat less accurate model. Source\: section 1.3.
+}
+
+::Generalization assumptions::Which situation most directly supports the chapter's intuition about performance on new data? {
+    ~Future inputs intentionally come from a completely different population
+    ~The model is evaluated only on data it memorized
+    =Training and future examples are independently sampled using the same data-generating procedure
+    ~Every training example is a duplicate of one atypical observation
+    ####Comparable, representative sampling supports generalization; it is not an unconditional guarantee. Source\: section 1.4.
+}
+
+::Perfect separation is not always possible::Why might no hyperplane perfectly separate the training classes? {
+    =Noise, label errors, outliers, or genuinely nonlinear class structure
+    ~The presence of more than one input feature always prevents separation
+    ~Every binary dataset is linearly separable by definition
+    ~SVM never uses numerical features
+    ####The chapter introduces limits of the simple hard-margin linear setup, developed further in Chapter 3. Source\: section 1.3.
+}
+
+::Sampling shift diagnosis::A spam model is trained on personal English emails, then deployed on corporate messages in another language. Explain why high training accuracy may not transfer. {
+    ####Self-assessment\: mark correct only if your answer includes ALL of the following. The training and deployment distributions differ; the learned features or boundary may not describe the new population; training accuracy alone does not establish performance on that population. Source\: section 1.4.
+}
+
+::Learning pipeline::Describe an end-to-end supervised spam-detection pipeline, distinguishing training from prediction. {
+    ####Self-assessment\: mark correct only if your answer includes ALL of the following. Collect input-label pairs; choose a consistent feature encoding; train to learn model parameters; encode unseen emails the same way and apply the learned model without using their unknown labels. Source\: section 1.3.
+}

@@ -1,0 +1,125 @@
+// Original study questions based on Andriy Burkov, 2019.
+$CATEGORY: Chapter 4 — Anatomy of a Learning Algorithm
+
+::Algorithm building blocks::Match each linear-regression component to its role. {
+    =Squared residual for one example -> Loss function
+    =Mean squared residual over training data -> Optimization criterion
+    =Gradient descent -> Optimization routine
+    =w dot x + b -> Prediction model
+    ####The chapter separates a per-example loss, an aggregate criterion, and a procedure for optimizing it. Source\: section 4.1.
+}
+
+::Descent direction::Which update is gradient descent for a parameter theta and positive learning rate alpha? {
+    =theta <- theta - alpha * gradient of the objective
+    ~theta <- theta + alpha * gradient of the objective
+    ~theta <- alpha regardless of the gradient
+    ~theta <- the true target of the next unseen example
+    ####The gradient points toward steepest local increase; descent takes the opposite direction. Source\: section 4.1–4.2.
+}
+
+::One scalar update::A parameter is 3, its current derivative is 4, and the learning rate is 0.1. What is its value after one gradient-descent step? {
+    #2.6:1e-09
+    ####3 - 0.1*4 \= 2.6. Source\: section 4.2.
+}
+
+::Negative derivative update::A parameter is 3, its current derivative is -4, and the learning rate is 0.1. What is its next value? {
+    #3.4:1e-09
+    ####Subtracting a negative derivative increases the parameter\: 3 - 0.1*(-4) \= 3.4. Source\: section 4.2.
+}
+
+::MSE derivative w::There is one training pair x\=2, y\=5. At w\=1 and b\=1, use MSE \= (y-(w*x+b))^2. What is the derivative with respect to w? {
+    #-8:0
+    ####The residual y-(w*x+b) is 2. The derivative is -2*x*residual \= -8. Source\: section 4.2.
+}
+
+::MSE derivative b::For the same single example x\=2, y\=5, at w\=1 and b\=1, what is the MSE derivative with respect to b? {
+    #-4:0
+    ####The derivative is -2*(y-(w*x+b)) \= -4. Source\: section 4.2.
+}
+
+::Simultaneous updates::When computing one full-batch step for w and b, which implementation matches the chapter? {
+    ~Update w for each example, but compute b using the final w and call it the same full-batch step
+    ~Skip the gradient calculation whenever the loss is positive
+    ~Compute the b gradient using an unknown future target
+    =Compute both gradients using the old w and b, then update both parameters
+    ####Both partial derivatives should be evaluated at the same current parameter vector. Other update schemes are different algorithms. Source\: section 4.2.
+}
+
+::Epoch::In the full-batch example, what does an epoch mean? {
+    ~The number of feature columns
+    =One complete use of the training set to compute a parameter update
+    ~One prediction on an unseen example
+    ~One parameter regardless of the number of examples
+    ####For minibatch training, one epoch still traverses the dataset, but it usually contains multiple parameter updates. Source\: section 4.2.
+}
+
+::Large learning rate::What can happen if the learning rate is too large? {
+    =Updates can overshoot, oscillate, or diverge rather than converge
+    ~All gradients become exactly zero by definition
+    ~The model automatically loses all hyperparameters
+    ~The objective is guaranteed to decrease at every step
+    ####Gradient descent is sensitive to step size; a very small learning rate can instead make progress slow. Source\: section 4.2.
+}
+
+::Convexity caveat::Which statement is mathematically correct about a differentiable convex objective? {
+    ~It cannot be optimized numerically
+    ~It necessarily has exactly one minimizing parameter vector
+    ~Every stationary point is a strict local maximum
+    =Any local minimum is global, but the minimizer need not be unique
+    ####Convexity rules out nonglobal local minima; uniqueness needs additional conditions such as strict convexity. Source\: section 4.1.
+}
+
+::Minibatch SGD::How does minibatch stochastic gradient descent reduce the cost of an individual update? {
+    =Estimate the gradient from a subset of training examples
+    ~Use the unseen example's true target
+    ~Require all possible datasets at every update
+    ~Replace every gradient with zero
+    ####A minibatch gradient is cheaper but noisier than a full-batch gradient; overall convergence cost depends on the problem. Source\: section 4.2.
+}
+
+::Optimization variants::Match each method to the description emphasized in the chapter. {
+    =Minibatch SGD -> Uses subsets to estimate a gradient
+    =Adagrad -> Adapts per-parameter learning rates using accumulated squared gradients
+    =Momentum -> Carries update history to accelerate progress and reduce oscillation
+    ####These are optimization procedures, not stand-alone statistical prediction models. Source\: section 4.2.
+}
+
+::Solver versus learner::Why is gradient descent not itself a complete machine-learning algorithm? {
+    ~It is always a clustering method
+    =It is a general optimizer and does not by itself specify the prediction model, loss, and training task
+    ~It requires only non-numerical features
+    ~It cannot be used to fit a statistical model
+    ####The same optimizer can be used for many different models and objectives, including non-ML problems. Source\: section 4.2.
+}
+
+::Library workflow::What is the practical engineering workflow recommended in the chapter? {
+    ~Treat an illustrative code snippet as a complete API specification
+    ~Assume every estimator supports every target type
+    =Use a well-tested library and check its input, output, and hyperparameter documentation
+    ~Reimplement every optimizer for each task
+    ####Libraries provide stable implementations, but estimator capabilities and data-shape requirements still matter. Source\: section 4.3–4.4.
+}
+
+::Estimator capabilities::Select TWO capabilities to verify before selecting a learning algorithm or implementation. {
+    ~%50%Whether it supports incremental updates from new labeled batches
+    ~%-50%Whether every fitted model can be updated without retraining by definition
+    ~%-50%Whether every classifier returns calibrated probabilities by definition
+    ~%50%Whether it accepts the input feature representation
+    ####Feature support, probability output, class weighting, incremental fitting, and target type vary by estimator. Source\: section 4.4.
+}
+
+::Class weights::What is the intended effect of assigning a larger training weight to a minority class? {
+    ~Turn a classification target into a real-valued regression target
+    =Make errors on that class more costly during fitting, potentially trading errors elsewhere
+    ~Duplicate the number of input feature columns
+    ~Guarantee zero error on that class in future data
+    ####Weighting changes the optimization tradeoff; it does not guarantee a particular generalization result. Source\: section 4.4.
+}
+
+::Debug a training loop::A training loop shows rising or oscillating loss after parameter updates. Give a minimal debugging plan grounded in this chapter. {
+    ####Self-assessment\: mark correct only if your answer includes ALL of the following. Verify the gradient signs and mean-versus-sum scaling; compute all gradient coordinates at the same current parameters; try a smaller learning rate; track the objective over training. Increasing epochs alone does not fix an unstable update. Source\: section 4.2.
+}
+
+::Batch update calculation::For one example x\=2, y\=5, start at w\=1, b\=1 and use learning rate 0.1. Compute BOTH parameters after one simultaneous MSE gradient step and the new squared error. {
+    ####Self-assessment\: mark correct only if your answer includes ALL of the following. Initial residual is 2; gradients are -8 for w and -4 for b; simultaneous updates give w\=1.8 and b\=1.4; the new prediction is 5 and the squared error is 0. Source\: section 4.2.
+}

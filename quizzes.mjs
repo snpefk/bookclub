@@ -16,6 +16,39 @@ export const books = [
                 revision: 1
             }
         ]
+    },
+    {
+        id: 'hundred-page-machine-learning',
+        chapters: [
+            {
+                id: 'hundred-page-machine-learning-chapter-01',
+                title: 'Chapter 1 — Introduction',
+                file: 'quizzes/hundred-page-machine-learning/chapter-01.gift',
+                anki: 'anki/hundred-page-machine-learning/chapter-01.tsv',
+                revision: 1
+            },
+            {
+                id: 'hundred-page-machine-learning-chapter-02',
+                title: 'Chapter 2 — Notation and Definitions',
+                file: 'quizzes/hundred-page-machine-learning/chapter-02.gift',
+                anki: 'anki/hundred-page-machine-learning/chapter-02.tsv',
+                revision: 1
+            },
+            {
+                id: 'hundred-page-machine-learning-chapter-03',
+                title: 'Chapter 3 — Fundamental Algorithms',
+                file: 'quizzes/hundred-page-machine-learning/chapter-03.gift',
+                anki: 'anki/hundred-page-machine-learning/chapter-03.tsv',
+                revision: 1
+            },
+            {
+                id: 'hundred-page-machine-learning-chapter-04',
+                title: 'Chapter 4 — Anatomy of a Learning Algorithm',
+                file: 'quizzes/hundred-page-machine-learning/chapter-04.gift',
+                anki: 'anki/hundred-page-machine-learning/chapter-04.tsv',
+                revision: 1
+            }
+        ]
     }
 ];
 

@@ -6,7 +6,7 @@ for (const book of books) {
     let list = target.querySelector('.chapter-list');
     if (!list) {
         const heading = document.createElement('h4');
-        heading.textContent = 'Chapter tests';
+        heading.textContent = book.chapters.some(chapter => chapter.anki) ? 'Chapter tests & Anki cards' : 'Chapter tests';
         target.append(heading);
         list = document.createElement('ul');
         list.className = 'chapter-list';
@@ -22,6 +22,15 @@ for (const book of books) {
             link.textContent = chapter.title;
             item.append(link);
             list.append(item);
+        }
+        if (chapter.anki && !item.querySelector('.anki-download')) {
+            const link = document.createElement('a');
+            link.className = 'anki-download';
+            link.href = chapter.anki;
+            link.download = '';
+            link.textContent = 'Anki cards';
+            link.setAttribute('aria-label', `Download Anki cards for ${chapter.title}`);
+            item.append(link);
         }
         try {
             const result = JSON.parse(localStorage.getItem(scoreKey(chapter)));

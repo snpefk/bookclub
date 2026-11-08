@@ -1,0 +1,1643 @@
+[
+  {
+    "number": 1,
+    "title": "Introduction",
+    "questions": [
+      {
+        "type": "single",
+        "title": "Learning from examples",
+        "prompt": "Which activity best matches the chapter's definition of machine learning?",
+        "options": [
+          "Using a computer for any arithmetic operation",
+          "Writing every decision rule by hand without using examples",
+          "Building a statistical model from examples to solve a practical problem",
+          "Storing files without deriving a predictive or descriptive model"
+        ],
+        "correct": 2,
+        "explanation": "Machine learning uses a dataset to algorithmically build a statistical model for a practical task.",
+        "section": "1.1"
+      },
+      {
+        "type": "matching",
+        "title": "Learning settings",
+        "prompt": "Match each dataset or interaction setting to its learning type.",
+        "pairs": [
+          [
+            "Emails with spam labels",
+            "Supervised"
+          ],
+          [
+            "Unlabeled customer vectors to group",
+            "Unsupervised"
+          ],
+          [
+            "A few labeled images plus many unlabeled images",
+            "Semi-supervised"
+          ],
+          [
+            "An agent taking actions and receiving rewards",
+            "Reinforcement"
+          ]
+        ],
+        "explanation": "The distinctions concern available supervision and, in reinforcement learning, sequential interaction and reward.",
+        "section": "1.2"
+      },
+      {
+        "type": "single",
+        "title": "Consistent features",
+        "prompt": "In a dataset of people, feature position 2 contains weight in kilograms. What must be true of position 2 in other examples?",
+        "options": [
+          "It must represent the same kind of information with the same meaning and units",
+          "Its meaning should depend on the target label",
+          "It may instead contain age if the model can infer the meaning",
+          "It must contain the same numerical weight for every person"
+        ],
+        "correct": 0,
+        "explanation": "A coordinate must have consistent semantics across examples; its value can differ.",
+        "section": "1.2.1"
+      },
+      {
+        "type": "single",
+        "title": "Unsupervised output",
+        "prompt": "Which task is an example of dimensionality reduction?",
+        "options": [
+          "Mapping each input vector to a vector with fewer features",
+          "Selecting an action to maximize future reward",
+          "Predicting a provided spam label",
+          "Adding a target label as an extra feature"
+        ],
+        "correct": 0,
+        "explanation": "Dimensionality reduction transforms the representation without requiring target labels.",
+        "section": "1.2.2"
+      },
+      {
+        "type": "single",
+        "title": "Why unlabeled data helps",
+        "prompt": "Why might adding unlabeled examples improve a semi-supervised model?",
+        "options": [
+          "They can reveal structure in the input distribution that helps learn from the labeled examples",
+          "They guarantee that no future input will be misclassified",
+          "They remove all need for labeled examples in every problem",
+          "Every unlabeled example automatically supplies a correct target"
+        ],
+        "correct": 0,
+        "explanation": "Additional input-distribution information can help, but improvement is not guaranteed.",
+        "section": "1.2.3"
+      },
+      {
+        "type": "single",
+        "title": "Policy",
+        "prompt": "What does a reinforcement-learning policy map, in the chapter's description?",
+        "options": [
+          "A label to a feature-vector dimension",
+          "A state representation to an action",
+          "A test score to an unconditional reward",
+          "An action to a training-set row number"
+        ],
+        "correct": 1,
+        "explanation": "A policy chooses actions based on state, aiming at a long-term reward objective rather than merely an immediate payoff.",
+        "section": "1.2.4"
+      },
+      {
+        "type": "numerical",
+        "title": "Bag of words dimension",
+        "prompt": "A binary bag-of-words dictionary contains 20,000 words. A dataset contains 10,000 emails. How many features does EACH email vector have?",
+        "value": 20000,
+        "tolerance": 0,
+        "explanation": "Dimensionality is the dictionary size; the number of examples is a separate quantity.",
+        "section": "1.3"
+      },
+      {
+        "type": "numerical",
+        "title": "Binary word presence",
+        "prompt": "In the chapter's binary bag-of-words representation, an email contains the dictionary word \"offer\" five times. What is that word's feature value?",
+        "value": 1,
+        "tolerance": 0,
+        "explanation": "This particular representation records presence, not frequency or word order.",
+        "section": "1.3"
+      },
+      {
+        "type": "single",
+        "title": "Training versus prediction",
+        "prompt": "Which sequence describes prediction with an already trained spam SVM?",
+        "options": [
+          "Choose a new dictionary ordering independently for each email",
+          "Optimize the model parameters using the unknown true label of the new email",
+          "Relabel all training examples before every prediction",
+          "Apply the training-time feature encoding, compute the learned linear score, and take its sign"
+        ],
+        "correct": 3,
+        "explanation": "Training finds the parameters. Prediction applies the fixed model to a consistently encoded new input.",
+        "section": "1.3"
+      },
+      {
+        "type": "numerical",
+        "title": "SVM sign calculation",
+        "prompt": "Use the chapter's convention: score is w dot x minus b. With w = [2, -1], x = [3, 1], and b = 2, what label (+1 or -1) is predicted?",
+        "value": 1,
+        "tolerance": 0,
+        "explanation": "The score is 2*3 - 1*1 - 2 = 3, so its sign is +1. A score exactly zero would require a tie convention.",
+        "section": "1.3"
+      },
+      {
+        "type": "numerical",
+        "title": "Hyperplane dimension",
+        "prompt": "In a 12-dimensional input space, how many dimensions does a nondegenerate linear decision hyperplane have?",
+        "value": 11,
+        "tolerance": 0,
+        "explanation": "One independent linear equality reduces the dimension by one.",
+        "section": "1.3"
+      },
+      {
+        "type": "single",
+        "title": "Hard-margin constraint",
+        "prompt": "Which is the compact hard-margin SVM constraint for every training example in the chapter's notation?",
+        "options": [
+          "The norm of w must equal the number of examples",
+          "w dot x_i - b = 0 for all examples",
+          "y_i * (w dot x_i - b) <= 0",
+          "y_i * (w dot x_i - b) >= 1"
+        ],
+        "correct": 3,
+        "explanation": "For labels +1 and -1, this enforces both correct classification and a score margin of at least one.",
+        "section": "1.3"
+      },
+      {
+        "type": "numerical",
+        "title": "Margin width",
+        "prompt": "For the canonical hard-margin constraints, the distance between the two supporting hyperplanes is 2 / ||w||. If ||w|| is 4, what is the full margin width?",
+        "value": 0.5,
+        "tolerance": 0,
+        "explanation": "The width is 2/4 = 0.5. Minimizing the norm increases this margin subject to the constraints.",
+        "section": "1.3"
+      },
+      {
+        "type": "multiple",
+        "title": "Beyond accuracy",
+        "prompt": "Select TWO practical considerations the chapter gives in addition to predictive accuracy.",
+        "options": [
+          "Model-building time",
+          "Whether all training labels are identical",
+          "Prediction-processing time",
+          "Whether the filename is alphabetically first"
+        ],
+        "correct": [
+          0,
+          2
+        ],
+        "explanation": "Training cost and inference latency can justify choosing a somewhat less accurate model.",
+        "section": "1.3"
+      },
+      {
+        "type": "single",
+        "title": "Generalization assumptions",
+        "prompt": "Which situation most directly supports the chapter's intuition about performance on new data?",
+        "options": [
+          "Future inputs intentionally come from a completely different population",
+          "The model is evaluated only on data it memorized",
+          "Training and future examples are independently sampled using the same data-generating procedure",
+          "Every training example is a duplicate of one atypical observation"
+        ],
+        "correct": 2,
+        "explanation": "Comparable, representative sampling supports generalization; it is not an unconditional guarantee.",
+        "section": "1.4"
+      },
+      {
+        "type": "single",
+        "title": "Perfect separation is not always possible",
+        "prompt": "Why might no hyperplane perfectly separate the training classes?",
+        "options": [
+          "Noise, label errors, outliers, or genuinely nonlinear class structure",
+          "The presence of more than one input feature always prevents separation",
+          "Every binary dataset is linearly separable by definition",
+          "SVM never uses numerical features"
+        ],
+        "correct": 0,
+        "explanation": "The chapter introduces limits of the simple hard-margin linear setup, developed further in Chapter 3.",
+        "section": "1.3"
+      },
+      {
+        "type": "essay",
+        "title": "Sampling shift diagnosis",
+        "prompt": "A spam model is trained on personal English emails, then deployed on corporate messages in another language. Explain why high training accuracy may not transfer.",
+        "explanation": "Self-assessment: mark correct only if your answer includes ALL of the following. The training and deployment distributions differ; the learned features or boundary may not describe the new population; training accuracy alone does not establish performance on that population.",
+        "section": "1.4"
+      },
+      {
+        "type": "essay",
+        "title": "Learning pipeline",
+        "prompt": "Describe an end-to-end supervised spam-detection pipeline, distinguishing training from prediction.",
+        "explanation": "Self-assessment: mark correct only if your answer includes ALL of the following. Collect input-label pairs; choose a consistent feature encoding; train to learn model parameters; encode unseen emails the same way and apply the learned model without using their unknown labels.",
+        "section": "1.3"
+      }
+    ],
+    "cards": [
+      {
+        "front": "What is machine learning in this book's practical definition?",
+        "back": "Gathering examples and algorithmically building a statistical model to solve a practical problem.",
+        "section": "1.1"
+      },
+      {
+        "front": "What information does a supervised-learning dataset contain?",
+        "back": "Pairs (x_i, y_i): an input feature vector and its target label.",
+        "section": "1.2.1"
+      },
+      {
+        "front": "What is a feature vector?",
+        "back": "An ordered collection of values describing an example; each coordinate has a consistent meaning across examples.",
+        "section": "1.2.1"
+      },
+      {
+        "front": "What is the goal of supervised learning?",
+        "back": "Learn a model that maps an input to a label, or to information from which a label can be deduced.",
+        "section": "1.2.1"
+      },
+      {
+        "front": "What distinguishes unsupervised learning from supervised learning?",
+        "back": "Its training examples do not include target labels; the algorithm learns useful structure or representations.",
+        "section": "1.2.2"
+      },
+      {
+        "front": "What does a clustering model assign to an example?",
+        "back": "A cluster identifier indicating a group of related examples.",
+        "section": "1.2.2"
+      },
+      {
+        "front": "What is the output of dimensionality reduction?",
+        "back": "A representation with fewer features than the original input vector.",
+        "section": "1.2.2"
+      },
+      {
+        "front": "What does an outlier-detection score describe?",
+        "back": "How atypical an example is relative to the data; the score's numerical direction depends on the implementation.",
+        "section": "1.2.2"
+      },
+      {
+        "front": "What data does semi-supervised learning use?",
+        "back": "Both labeled and unlabeled examples, often with many more unlabeled examples.",
+        "section": "1.2.3"
+      },
+      {
+        "front": "Why can unlabeled data help semi-supervised learning?",
+        "back": "It reveals the input distribution or structure, which may improve learning from limited labels; this is not guaranteed.",
+        "section": "1.2.3"
+      },
+      {
+        "front": "What does a reinforcement-learning policy map?",
+        "back": "A representation of the environment's state to an action, aiming to optimize a long-term reward objective.",
+        "section": "1.2.4"
+      },
+      {
+        "front": "What distinguishes reinforcement learning from one-shot supervised prediction?",
+        "back": "Actions can affect later states and rewards, so decisions are sequential and consequences extend into the future.",
+        "section": "1.2.4"
+      },
+      {
+        "front": "What does one feature record in the chapter's binary bag-of-words example?",
+        "back": "Whether a particular dictionary word occurs: 1 if present, 0 otherwise; repeated occurrences do not increase the value.",
+        "section": "1.3"
+      },
+      {
+        "front": "In bag-of-words encoding, what determines input dimensionality?",
+        "back": "The dictionary size, not the number of documents.",
+        "section": "1.3"
+      },
+      {
+        "front": "What is a decision boundary?",
+        "back": "The boundary between regions of input space assigned different predicted classes.",
+        "section": "1.3"
+      },
+      {
+        "front": "What is the chapter's linear SVM prediction rule?",
+        "back": "Predict sign(w* dot x - b*), where the starred parameters were learned during training. A zero score needs a tie convention.",
+        "section": "1.3"
+      },
+      {
+        "front": "What is the canonical hard-margin SVM constraint?",
+        "back": "For every example with y_i in {-1, +1}: y_i (w dot x_i - b) >= 1.",
+        "section": "1.3"
+      },
+      {
+        "front": "How does canonical SVM margin width depend on ||w||?",
+        "back": "The full width is 2/||w||. Subject to the canonical constraints, a smaller norm gives a larger margin.",
+        "section": "1.3"
+      },
+      {
+        "front": "Besides accuracy, which two runtime costs matter when choosing an algorithm?",
+        "back": "The time to build/train the model and the time to process predictions.",
+        "section": "1.3"
+      },
+      {
+        "front": "What sampling assumption supports the chapter's generalization intuition?",
+        "back": "Training and future examples should come from the same data-generating process, with independent and representative sampling. Distribution shift can break this intuition.",
+        "section": "1.4"
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "title": "Notation and Definitions",
+    "questions": [
+      {
+        "type": "matching",
+        "title": "Data structures",
+        "prompt": "Match each mathematical object to its description.",
+        "pairs": [
+          [
+            "Scalar",
+            "One numerical value"
+          ],
+          [
+            "Vector",
+            "An ordered list of numerical values"
+          ],
+          [
+            "Matrix",
+            "A rectangular array of numerical values"
+          ],
+          [
+            "Set",
+            "An unordered collection of unique elements"
+          ]
+        ],
+        "explanation": "Ordering matters for vectors, but not for sets; repeated elements do not increase set cardinality.",
+        "section": "2.1.1"
+      },
+      {
+        "type": "single",
+        "title": "Indexed feature notation",
+        "prompt": "What does x_i^(j) denote in the book?",
+        "options": [
+          "Example j raised to the power i",
+          "The j-th power of the whole dataset",
+          "Feature j of example i",
+          "The number of examples multiplied by the number of features"
+        ],
+        "correct": 2,
+        "explanation": "The parenthesized superscript is an index, not an exponent.",
+        "section": "2.1.1"
+      },
+      {
+        "type": "numerical",
+        "title": "Sigma",
+        "prompt": "Compute the sum of 2i for i from 1 through 4.",
+        "value": 20,
+        "tolerance": 0,
+        "explanation": "2 + 4 + 6 + 8 = 20.",
+        "section": "2.1.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Pi",
+        "prompt": "Compute the product of i for i from 1 through 4.",
+        "value": 24,
+        "tolerance": 0,
+        "explanation": "1 * 2 * 3 * 4 = 24.",
+        "section": "2.1.3"
+      },
+      {
+        "type": "single",
+        "title": "Set operations",
+        "prompt": "Let A contain 1, 3, 5 and B contain 3, 4. Which is their intersection?",
+        "options": [
+          "The set containing 1, 3, 4, 5",
+          "The set containing only 3",
+          "The ordered list 1, 3, 5, 3, 4",
+          "The empty set"
+        ],
+        "correct": 1,
+        "explanation": "Intersection retains elements present in both sets; union would contain 1, 3, 4, 5.",
+        "section": "2.1.4"
+      },
+      {
+        "type": "numerical",
+        "title": "Derived set",
+        "prompt": "Let S contain 1, 3, 4, 5. Form T from x squared for x in S with x > 3. What is the sum of the elements of T?",
+        "value": 41,
+        "tolerance": 0,
+        "explanation": "Only 4 and 5 satisfy the condition; T contains 16 and 25, whose sum is 41.",
+        "section": "2.1.4"
+      },
+      {
+        "type": "numerical",
+        "title": "Dot product",
+        "prompt": "Compute the dot product of [2, -1, 3] and [4, 5, 0].",
+        "value": 3,
+        "tolerance": 0,
+        "explanation": "2*4 + (-1)*5 + 3*0 = 3. A dot product is a scalar.",
+        "section": "2.1.5"
+      },
+      {
+        "type": "single",
+        "title": "Matrix-vector shape",
+        "prompt": "W has 3 rows and 2 columns. x is a column vector with 2 entries. What is the shape of Wx?",
+        "options": [
+          "A 2-by-3 matrix",
+          "A column vector with 3 entries",
+          "A column vector with 2 entries",
+          "The product is undefined"
+        ],
+        "correct": 1,
+        "explanation": "The inner dimensions match, and each row of W produces one output entry.",
+        "section": "2.1.5"
+      },
+      {
+        "type": "single",
+        "title": "Arg max",
+        "prompt": "For inputs a, b, c, a function returns 2, 7, 4 respectively. What does arg max return?",
+        "options": [
+          "The sum 13",
+          "7",
+          "b",
+          "c"
+        ],
+        "correct": 2,
+        "explanation": "arg max returns a maximizing input; max returns the output value 7.",
+        "section": "2.1.7"
+      },
+      {
+        "type": "single",
+        "title": "Local versus global",
+        "prompt": "Which statement about a local minimum is correct?",
+        "options": [
+          "It is no higher than nearby values, but a lower value may exist elsewhere",
+          "It must be the unique global minimum",
+          "It must have a strictly positive derivative",
+          "It is always higher than every neighboring value"
+        ],
+        "correct": 0,
+        "explanation": "Local optimality concerns a neighborhood, while global optimality concerns the full domain.",
+        "section": "2.1.6"
+      },
+      {
+        "type": "numerical",
+        "title": "Chain rule",
+        "prompt": "For F(x) = (3x + 1)^2, what is F'(2)?",
+        "value": 42,
+        "tolerance": 0,
+        "explanation": "F'(x) = 2(3x+1)*3, so F'(2) = 42.",
+        "section": "2.1.9"
+      },
+      {
+        "type": "single",
+        "title": "Gradient",
+        "prompt": "For f(u,v) = 3u + 2v + 7, what is the gradient with coordinates ordered u, v?",
+        "options": [
+          "7",
+          "[3, 2]",
+          "[u, v]",
+          "[3u, 2v]"
+        ],
+        "correct": 1,
+        "explanation": "Take one partial derivative per coordinate, holding the other coordinate constant.",
+        "section": "2.1.9"
+      },
+      {
+        "type": "single",
+        "title": "Density versus probability",
+        "prompt": "A random variable has a continuous density. Which statement is correct?",
+        "options": [
+          "The density height at x is always the probability of exactly x",
+          "An interval probability is an area under the density; a single point has probability zero",
+          "A density must be at most one at every point",
+          "All continuous distributions assign positive probability to every individual point"
+        ],
+        "correct": 1,
+        "explanation": "A density is not a probability mass function. Its integral is one; its height can exceed one.",
+        "section": "2.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Expectation",
+        "prompt": "X takes value 0 with probability 0.25 and value 4 with probability 0.75. What is E[X]?",
+        "value": 3,
+        "tolerance": 0,
+        "explanation": "The probability-weighted average is 0*0.25 + 4*0.75 = 3.",
+        "section": "2.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Variance",
+        "prompt": "X takes 0 and 2, each with probability 0.5. What is its variance?",
+        "value": 1,
+        "tolerance": 0,
+        "explanation": "Its mean is 1, so variance is 0.5*(0-1)^2 + 0.5*(2-1)^2 = 1.",
+        "section": "2.2"
+      },
+      {
+        "type": "single",
+        "title": "Unbiased does not mean exact",
+        "prompt": "What does it mean for an estimator of a quantity to be unbiased?",
+        "options": [
+          "It has zero variance",
+          "Its expectation over repeated samples equals the true quantity",
+          "It never uses random samples",
+          "Its value equals the true quantity for every possible sample"
+        ],
+        "correct": 1,
+        "explanation": "An individual estimate can be wrong even when the estimator is unbiased.",
+        "section": "2.3"
+      },
+      {
+        "type": "numerical",
+        "title": "Sample mean",
+        "prompt": "For the observed sample 2, 4, 9, what is the sample mean?",
+        "value": 5,
+        "tolerance": 0,
+        "explanation": "(2+4+9)/3 = 5; the sample mean is an unbiased estimator of the population mean under the usual sampling assumptions.",
+        "section": "2.3"
+      },
+      {
+        "type": "numerical",
+        "title": "Bayes calculation",
+        "prompt": "P(A) = 0.2, P(B given A) = 0.6, and P(B) = 0.3. What is P(A given B)?",
+        "value": 0.4,
+        "tolerance": 0,
+        "explanation": "Bayes' rule gives 0.6*0.2/0.3 = 0.4.",
+        "section": "2.4"
+      },
+      {
+        "type": "matching",
+        "title": "Bayesian terms",
+        "prompt": "Match each Bayesian term to its meaning.",
+        "pairs": [
+          [
+            "Prior",
+            "Belief about parameters before the current data"
+          ],
+          [
+            "Likelihood",
+            "Data probability or density as a function of parameters"
+          ],
+          [
+            "Posterior",
+            "Belief about parameters after conditioning on data"
+          ],
+          [
+            "MAP estimate",
+            "Parameter value maximizing the posterior"
+          ]
+        ],
+        "explanation": "Posterior is proportional to likelihood times prior; evidence normalizes it.",
+        "section": "2.5"
+      },
+      {
+        "type": "multiple",
+        "title": "Parameters and hyperparameters",
+        "prompt": "Select TWO hyperparameters rather than fitted model coefficients.",
+        "options": [
+          "A fitted linear-regression coefficient",
+          "The chosen maximum depth of a decision tree",
+          "The chosen k in k-nearest neighbors",
+          "A fitted linear-regression intercept"
+        ],
+        "correct": [
+          1,
+          2
+        ],
+        "explanation": "Hyperparameters control the learning setup; coefficients and intercept are fitted within that setup. Hyperparameters can themselves be selected using validation.",
+        "section": "2.6"
+      },
+      {
+        "type": "matching",
+        "title": "Prediction targets",
+        "prompt": "Match each target type to the appropriate task.",
+        "pairs": [
+          [
+            "Spam or not spam",
+            "Binary classification"
+          ],
+          [
+            "One of cat, dog, horse",
+            "Multiclass classification"
+          ],
+          [
+            "A house price in euros",
+            "Regression"
+          ],
+          [
+            "One of three numeric class codes",
+            "Multiclass classification, despite numeric encoding"
+          ]
+        ],
+        "explanation": "Task type depends on target meaning, not whether its storage format is numeric.",
+        "section": "2.7"
+      },
+      {
+        "type": "single",
+        "title": "Instance-based learning",
+        "prompt": "Why does ordinary kNN need the training examples when predicting?",
+        "options": [
+          "It requires the true target of the query before searching",
+          "It cannot use a distance function",
+          "It fits a fixed coefficient vector and discards all examples",
+          "Its predictions depend on finding nearby stored examples and their labels"
+        ],
+        "correct": 3,
+        "explanation": "The stored examples are central to its instance-based prediction procedure.",
+        "section": "2.8"
+      },
+      {
+        "type": "single",
+        "title": "Deep representation",
+        "prompt": "What distinguishes the deep-learning description in this chapter?",
+        "options": [
+          "Any dataset with more than two rows",
+          "Multiple learned layers, with later layers receiving representations produced by preceding layers",
+          "Any model trained for a large number of epochs",
+          "Using a vector rather than a scalar input"
+        ],
+        "correct": 1,
+        "explanation": "Depth concerns successive learned transformations, not merely dataset size or training duration.",
+        "section": "2.9"
+      },
+      {
+        "type": "essay",
+        "title": "Bayesian sequential update",
+        "prompt": "Explain how to update beliefs about a fixed parameter after two conditionally independent observations.",
+        "explanation": "Self-assessment: mark correct only if your answer includes ALL of the following. Start with a prior; multiply by the first observation's likelihood and normalize; use that posterior as the next prior; multiply by the second likelihood and normalize. Equivalently the final posterior is proportional to the original prior times both likelihoods. Do not count the prior twice.",
+        "section": "2.5"
+      }
+    ],
+    "cards": [
+      {
+        "front": "What is the difference between a vector and a set?",
+        "back": "A vector is ordered and may repeat values; a set is unordered and contains unique elements.",
+        "section": "2.1.1"
+      },
+      {
+        "front": "What does x_i^(j) mean in the book's notation?",
+        "back": "Coordinate j of example i; the parenthesized superscript is an index, not a power.",
+        "section": "2.1.1"
+      },
+      {
+        "front": "What is a matrix?",
+        "back": "A rectangular array of numbers organized into rows and columns.",
+        "section": "2.1.1"
+      },
+      {
+        "front": "How do the intervals [a,b] and (a,b) differ?",
+        "back": "[a,b] includes both endpoints; (a,b) excludes both endpoints.",
+        "section": "2.1.1"
+      },
+      {
+        "front": "What do capital sigma and capital pi denote?",
+        "back": "Sigma denotes summation; capital pi denotes multiplication over indexed terms.",
+        "section": "2.1.2–2.1.4"
+      },
+      {
+        "front": "What does the cardinality |S| of a finite set mean?",
+        "back": "The number of unique elements in S.",
+        "section": "2.1.2–2.1.4"
+      },
+      {
+        "front": "How do set intersection and union differ?",
+        "back": "Intersection contains elements belonging to both sets; union contains elements belonging to either set.",
+        "section": "2.1.2–2.1.4"
+      },
+      {
+        "front": "How is the dot product of equal-length vectors computed, and what does it return?",
+        "back": "Multiply corresponding coordinates and sum: w dot x = sum_j w_j*x_j. The result is a scalar.",
+        "section": "2.1.5"
+      },
+      {
+        "front": "If W is m-by-n and x is an n-entry column vector, what shape is Wx?",
+        "back": "An m-entry column vector; each output is the dot product of one row of W with x.",
+        "section": "2.1.5"
+      },
+      {
+        "front": "What does transposing a column vector do?",
+        "back": "It makes a row vector with the same entries.",
+        "section": "2.1.5"
+      },
+      {
+        "front": "How does a local minimum differ from a global minimum?",
+        "back": "A local minimum is no higher than nearby values; a global minimum is no higher than any value in the entire domain.",
+        "section": "2.1.6–2.1.8"
+      },
+      {
+        "front": "What is the difference between max f(x) and arg max f(x)?",
+        "back": "max returns the largest output value; arg max returns an input attaining it. There can be multiple maximizing inputs.",
+        "section": "2.1.6–2.1.8"
+      },
+      {
+        "front": "What does the assignment arrow mean?",
+        "back": "Replace the variable on the left with the value of the expression on the right.",
+        "section": "2.1.6–2.1.8"
+      },
+      {
+        "front": "What does a positive or negative derivative indicate locally?",
+        "back": "A positive derivative indicates local increase as the input increases; a negative derivative indicates local decrease.",
+        "section": "2.1.9"
+      },
+      {
+        "front": "What is the chain rule for F(x) = f(g(x))?",
+        "back": "F'(x) = f'(g(x))*g'(x): differentiate the outer function and multiply by the inner derivative.",
+        "section": "2.1.9"
+      },
+      {
+        "front": "What is a gradient?",
+        "back": "The vector of partial derivatives, one per input coordinate; each partial derivative holds the other coordinates fixed.",
+        "section": "2.1.9"
+      },
+      {
+        "front": "Does a zero derivative by itself prove a minimum?",
+        "back": "No. It may indicate a maximum, a minimum, or another stationary point. Additional reasoning is needed.",
+        "section": "2.1.9"
+      },
+      {
+        "front": "What conditions must a probability mass function satisfy?",
+        "back": "Every probability is nonnegative, and the probabilities over all possible discrete outcomes sum to one.",
+        "section": "2.2"
+      },
+      {
+        "front": "How do you obtain an interval probability from a continuous density?",
+        "back": "Integrate the density over the interval. A single point has zero probability for a distribution with a density.",
+        "section": "2.2"
+      },
+      {
+        "front": "Must a probability density be at most one?",
+        "back": "No. Its height may exceed one; it must be nonnegative and its total integral must equal one.",
+        "section": "2.2"
+      },
+      {
+        "front": "What is the expectation of a discrete random variable?",
+        "back": "E[X] = sum_x x*P(X=x), when the expectation exists.",
+        "section": "2.2"
+      },
+      {
+        "front": "How are variance and standard deviation defined?",
+        "back": "Variance is E[(X - E[X])^2]. Standard deviation is its square root.",
+        "section": "2.2"
+      },
+      {
+        "front": "What makes an estimator unbiased?",
+        "back": "Its expectation over repeated samples equals the quantity being estimated. Individual estimates need not be exact.",
+        "section": "2.3"
+      },
+      {
+        "front": "What is the sample mean?",
+        "back": "The sum of the N observed values divided by N; it is an unbiased estimator of the population mean under the usual sampling assumptions.",
+        "section": "2.3"
+      },
+      {
+        "front": "State Bayes' rule for events A and B with P(B) > 0.",
+        "back": "P(A given B) = P(B given A)*P(A)/P(B).",
+        "section": "2.4–2.5"
+      },
+      {
+        "front": "How are Bayesian posterior, likelihood, and prior related?",
+        "back": "Posterior is proportional to likelihood times prior; normalize by the evidence.",
+        "section": "2.4–2.5"
+      },
+      {
+        "front": "What does maximum a posteriori (MAP) estimation select?",
+        "back": "A parameter value maximizing the posterior given the full observed data. Unlike maximum likelihood, MAP includes the prior.",
+        "section": "2.4–2.5"
+      },
+      {
+        "front": "How do model parameters differ from hyperparameters?",
+        "back": "Model parameters are fitted during training; hyperparameters control the model or training setup and may be chosen using validation.",
+        "section": "2.6–2.9"
+      },
+      {
+        "front": "How do classification and regression targets differ?",
+        "back": "Classification predicts a member of a finite set of classes; regression predicts a real-valued target. Numeric class codes remain classification.",
+        "section": "2.6–2.9"
+      },
+      {
+        "front": "How does instance-based kNN differ from a fixed-parameter fitted model?",
+        "back": "kNN retains examples and consults neighbors at prediction time; many fitted parametric models can predict without retaining their training examples.",
+        "section": "2.6–2.9"
+      },
+      {
+        "front": "What distinguishes deep learning from shallow learning in the chapter?",
+        "back": "Deep models learn a succession of representations through multiple layers; later layers use outputs of preceding learned layers rather than only the original features.",
+        "section": "2.6–2.9"
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "title": "Fundamental Algorithms",
+    "questions": [
+      {
+        "type": "numerical",
+        "title": "Linear prediction",
+        "prompt": "For f(x) = w dot x + b, w = [2, -1], x = [3, 4], b = 5, what is f(x)?",
+        "value": 7,
+        "tolerance": 0,
+        "explanation": "2*3 - 1*4 + 5 = 7.",
+        "section": "3.1.1"
+      },
+      {
+        "type": "numerical",
+        "title": "MSE",
+        "prompt": "A model predicts 1 and 5 for targets 3 and 4. What is the mean squared error?",
+        "value": 2.5,
+        "tolerance": 0,
+        "explanation": "The squared errors are 4 and 1; their average is 2.5.",
+        "section": "3.1.2"
+      },
+      {
+        "type": "single",
+        "title": "Why square errors",
+        "prompt": "Which is a useful property of squared-error loss compared with absolute-error loss?",
+        "options": [
+          "It is differentiable everywhere and increasingly penalizes larger residual magnitudes",
+          "It makes every regression objective nonconvex",
+          "It never responds to outliers",
+          "It guarantees that any fitted model generalizes perfectly"
+        ],
+        "correct": 0,
+        "explanation": "Squaring is smooth and magnifies large errors. That also makes it sensitive to large residuals.",
+        "section": "3.1.2"
+      },
+      {
+        "type": "single",
+        "title": "Overfitting",
+        "prompt": "Which outcome is characteristic of overfitting?",
+        "options": [
+          "Very low training error but substantially worse error on representative unseen examples",
+          "An optimizer that always stops before reading the data",
+          "A model with no fitted parameters by definition",
+          "Identical low errors on training and unseen examples"
+        ],
+        "correct": 0,
+        "explanation": "Fitting training peculiarities does not necessarily capture patterns that persist in new data.",
+        "section": "3.1.2"
+      },
+      {
+        "type": "single",
+        "title": "Logistic task",
+        "prompt": "Despite its name, what task does binary logistic regression solve?",
+        "options": [
+          "Only dimensionality reduction",
+          "Only continuous-target regression",
+          "Classification",
+          "Only clustering"
+        ],
+        "correct": 2,
+        "explanation": "Its sigmoid output can be interpreted as a positive-class probability and thresholded into a class.",
+        "section": "3.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Sigmoid at zero",
+        "prompt": "What is sigmoid(0), where sigmoid(z) = 1/(1+exp(-z))?",
+        "value": 0.5,
+        "tolerance": 0,
+        "explanation": "exp(0)=1, so the result is 1/2.",
+        "section": "3.2.1"
+      },
+      {
+        "type": "single",
+        "title": "Threshold is a choice",
+        "prompt": "A logistic model assigns positive-class probability 0.6. What happens if the threshold is raised from 0.5 to 0.7?",
+        "options": [
+          "It must still predict positive because thresholds never matter",
+          "The probability becomes 0.7",
+          "Its fitted coefficients must automatically be retrained",
+          "Its predicted class changes from positive to negative without changing the fitted probability"
+        ],
+        "correct": 3,
+        "explanation": "The threshold converts a score into a decision; it need not be fixed at 0.5.",
+        "section": "3.2.1"
+      },
+      {
+        "type": "numerical",
+        "title": "Likelihood of a negative label",
+        "prompt": "A logistic model outputs positive-class probability 0.8. If the observed label is 0, what probability does the model assign to that label?",
+        "value": 0.2,
+        "tolerance": 1e-09,
+        "explanation": "For label 0, the likelihood contribution is 1-p, here 0.2.",
+        "section": "3.2.2"
+      },
+      {
+        "type": "single",
+        "title": "Log-likelihood",
+        "prompt": "Why maximize log-likelihood instead of multiplying many small likelihood terms directly?",
+        "options": [
+          "The logarithm preserves the maximizer and converts products into numerically easier sums",
+          "The logarithm reverses the order of all positive likelihoods",
+          "Log-likelihood ignores all negative labels",
+          "This always yields a closed-form logistic-regression solution"
+        ],
+        "correct": 0,
+        "explanation": "The natural logarithm is strictly increasing. Summing log terms avoids numerical underflow from tiny products.",
+        "section": "3.2.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Tree leaf probability",
+        "prompt": "A decision-tree leaf contains 8 examples, of which 6 have binary label 1. What positive-class probability does the chapter's leaf model return?",
+        "value": 0.75,
+        "tolerance": 0,
+        "explanation": "The leaf prediction is the average binary label: 6/8.",
+        "section": "3.3.2"
+      },
+      {
+        "type": "single",
+        "title": "Entropy comparison",
+        "prompt": "Which binary leaf has the greatest label entropy?",
+        "options": [
+          "A leaf with no positive and 10 negative examples",
+          "A leaf with 5 positive and 5 negative examples",
+          "A leaf with 9 positive and 1 negative example",
+          "A leaf with 10 positive and no negative examples"
+        ],
+        "correct": 1,
+        "explanation": "Entropy is maximal at equal class proportions. With natural logarithms the maximum is ln(2), not 1; with base-2 logs it is 1 bit.",
+        "section": "3.3.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Weighted split entropy",
+        "prompt": "A split puts 3 examples in a child with entropy 0.2 and 7 examples in a child with entropy 0.6. What is the weighted child entropy?",
+        "value": 0.48,
+        "tolerance": 1e-09,
+        "explanation": "Use child sample fractions: 0.3*0.2 + 0.7*0.6 = 0.48.",
+        "section": "3.3.2"
+      },
+      {
+        "type": "single",
+        "title": "Greedy splitting",
+        "prompt": "Why does the described ID3 procedure not guarantee a globally optimal tree?",
+        "options": [
+          "Entropy cannot be calculated for binary data",
+          "It never consults the example labels",
+          "It chooses the best available split locally without evaluating all future tree structures",
+          "It explicitly evaluates every possible complete tree"
+        ],
+        "correct": 2,
+        "explanation": "A locally best split need not belong to the globally best full tree.",
+        "section": "3.3.2"
+      },
+      {
+        "type": "multiple",
+        "title": "Tree stopping and pruning",
+        "prompt": "Select TWO statements consistent with the chapter's tree discussion.",
+        "options": [
+          "A larger tree is guaranteed to generalize better",
+          "Pruning removes branches whose benefit does not justify retaining them",
+          "A maximum depth can stop recursive splitting",
+          "Every leaf must always contain exactly one example"
+        ],
+        "correct": [
+          1,
+          2
+        ],
+        "explanation": "Depth and minimum improvement are controls on growth; pruning can reduce overfitting.",
+        "section": "3.3.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Hinge loss inside margin",
+        "prompt": "For positive label y = +1 and score s = w dot x - b = 0.4, what is hinge loss max(0, 1-y*s)?",
+        "value": 0.6,
+        "tolerance": 1e-09,
+        "explanation": "The sign is correct, but the example is inside the unit score margin: 1-0.4=0.6.",
+        "section": "3.4.1"
+      },
+      {
+        "type": "numerical",
+        "title": "Hinge loss outside margin",
+        "prompt": "For label y = -1 and score s = -2, what is hinge loss max(0, 1-y*s)?",
+        "value": 0,
+        "tolerance": 0,
+        "explanation": "The signed score y*s is 2, so max(0, 1-2)=0.",
+        "section": "3.4.1"
+      },
+      {
+        "type": "single",
+        "title": "Book-specific C convention",
+        "prompt": "Use the BOOK'S objective: C*||w||^2 + mean hinge loss. What does increasing C directly emphasize?",
+        "options": [
+          "The number of input features",
+          "The norm penalty, relative to the training hinge-loss term",
+          "The hinge-loss term, relative to the norm penalty",
+          "The number of neighbors in kNN"
+        ],
+        "correct": 1,
+        "explanation": "Here C multiplies the norm penalty. Many libraries instead put C on the loss term, giving the opposite direction; always inspect the objective.",
+        "section": "3.4.1"
+      },
+      {
+        "type": "single",
+        "title": "Kernel trick",
+        "prompt": "What does the kernel trick let SVM compute without explicitly materializing transformed feature vectors?",
+        "options": [
+          "A guarantee of separability for every dataset and kernel",
+          "All possible trees in constant time",
+          "The exact true label of every future example",
+          "Their dot products in an implicit feature space"
+        ],
+        "correct": 3,
+        "explanation": "A kernel provides k(x,z)=phi(x) dot phi(z); optimization can use these similarities directly.",
+        "section": "3.4.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Quadratic kernel",
+        "prompt": "For x = [1,2] and z = [3,4], compute the quadratic kernel k(x,z) = (x dot z)^2.",
+        "value": 121,
+        "tolerance": 0,
+        "explanation": "The dot product is 1*3+2*4=11; squaring gives 121.",
+        "section": "3.4.2"
+      },
+      {
+        "type": "single",
+        "title": "RBF similarity",
+        "prompt": "For a fixed positive sigma, how does the RBF kernel change as the Euclidean distance between two inputs increases?",
+        "options": [
+          "It becomes a negative probability",
+          "It decreases toward zero",
+          "It increases without bound",
+          "It stays exactly one"
+        ],
+        "correct": 1,
+        "explanation": "The RBF is exp(-distance^2/(2*sigma^2)); it equals one at zero distance and decreases with distance.",
+        "section": "3.4.2"
+      },
+      {
+        "type": "matching",
+        "title": "kNN predictions",
+        "prompt": "Match each kNN situation to its prediction or property.",
+        "pairs": [
+          [
+            "Classification neighbor labels A, A, B",
+            "Predict class A by majority"
+          ],
+          [
+            "Regression neighbor targets 2, 4, 9",
+            "Predict 5 by arithmetic mean"
+          ],
+          [
+            "Changing the chosen k",
+            "Changing a hyperparameter"
+          ],
+          [
+            "Making a query after training",
+            "Consult stored labeled examples"
+          ]
+        ],
+        "explanation": "Ordinary kNN retains examples and aggregates labels from a selected neighborhood.",
+        "section": "3.5"
+      },
+      {
+        "type": "numerical",
+        "title": "Euclidean distance",
+        "prompt": "What is the Euclidean distance between [1,2] and [4,6]?",
+        "value": 5,
+        "tolerance": 0,
+        "explanation": "The distance is sqrt(3^2+4^2)=5.",
+        "section": "3.5"
+      },
+      {
+        "type": "numerical",
+        "title": "Orthogonal cosine",
+        "prompt": "What is the cosine similarity of the nonzero vectors [1,0] and [0,2]?",
+        "value": 0,
+        "tolerance": 0,
+        "explanation": "The dot product is zero, so their cosine similarity is zero.",
+        "section": "3.5"
+      },
+      {
+        "type": "essay",
+        "title": "Choose a model under constraints",
+        "prompt": "You need many very fast predictions with limited serving memory. Compare a fitted linear model and ordinary kNN; mention one reason you might still prefer kNN.",
+        "explanation": "Self-assessment: mark correct only if your answer includes ALL of the following. A fitted linear model stores a coefficient vector and predicts with a dot product; ordinary kNN retains training examples and performs neighbor search; kNN may better fit a nonlinear local pattern or need little fitting, so accuracy and the data geometry may justify its prediction cost. Exact performance depends on indexing and implementation.",
+        "section": "3.1 and 3.5"
+      }
+    ],
+    "cards": [
+      {
+        "front": "What is the linear-regression prediction formula?",
+        "back": "f(x) = w dot x + b, where w contains fitted feature weights and b is a fitted intercept.",
+        "section": "3.1"
+      },
+      {
+        "front": "What objective does ordinary least-squares regression minimize?",
+        "back": "Mean squared error: the average of (prediction - target)^2 over the training examples.",
+        "section": "3.1"
+      },
+      {
+        "front": "What is empirical risk?",
+        "back": "The average loss evaluated on the observed training examples; it estimates expected loss under the data distribution.",
+        "section": "3.1"
+      },
+      {
+        "front": "Why are large residuals especially influential under squared-error loss?",
+        "back": "Their loss grows quadratically rather than linearly with residual magnitude.",
+        "section": "3.1"
+      },
+      {
+        "front": "What is overfitting?",
+        "back": "Capturing training-specific patterns so that training performance is much better than performance on representative unseen examples.",
+        "section": "3.1"
+      },
+      {
+        "front": "Does a linear model guarantee absence of overfitting?",
+        "back": "No. Linear models can overfit, especially with many features, little data, or noisy features. Simplicity is not a guarantee.",
+        "section": "3.1"
+      },
+      {
+        "front": "Is logistic regression a classification or regression algorithm in this chapter?",
+        "back": "Classification, despite its name.",
+        "section": "3.2"
+      },
+      {
+        "front": "What is the standard sigmoid function?",
+        "back": "sigmoid(z) = 1/(1+exp(-z)); for finite real z its output is strictly between 0 and 1.",
+        "section": "3.2"
+      },
+      {
+        "front": "What is sigmoid(0)?",
+        "back": "0.5.",
+        "section": "3.2"
+      },
+      {
+        "front": "How does a binary logistic model produce a class prediction?",
+        "back": "Compute p = sigmoid(w dot x + b), then compare p with a chosen decision threshold, often 0.5.",
+        "section": "3.2"
+      },
+      {
+        "front": "What likelihood contribution does one binary example make if the model predicts positive probability p?",
+        "back": "p if the observed label is 1; 1-p if it is 0. Combined notation: p^y * (1-p)^(1-y).",
+        "section": "3.2"
+      },
+      {
+        "front": "Under conditional independence, how is a dataset likelihood built from example likelihoods?",
+        "back": "Multiply the contributions of the individual observations.",
+        "section": "3.2"
+      },
+      {
+        "front": "Why does taking the logarithm preserve a positive-likelihood maximizer?",
+        "back": "The logarithm is strictly increasing, so it preserves the ordering of positive likelihood values.",
+        "section": "3.2"
+      },
+      {
+        "front": "What is binary logistic negative log-likelihood for one example?",
+        "back": "-[y*ln(p) + (1-y)*ln(1-p)]. It penalizes confident wrong predictions strongly.",
+        "section": "3.2"
+      },
+      {
+        "front": "Does ordinary logistic regression have a general closed-form fitting solution?",
+        "back": "No; it is typically fitted by numerical optimization.",
+        "section": "3.2"
+      },
+      {
+        "front": "What does an internal node of the chapter's decision tree do?",
+        "back": "Test a feature against a threshold and route the example to one child.",
+        "section": "3.3"
+      },
+      {
+        "front": "What probability does a binary decision-tree leaf estimate in the chapter?",
+        "back": "The fraction of training examples in that leaf with label 1.",
+        "section": "3.3"
+      },
+      {
+        "front": "How does binary label entropy behave at pure and balanced leaves?",
+        "back": "It is zero at a pure leaf and largest at equal class proportions.",
+        "section": "3.3"
+      },
+      {
+        "front": "What is the maximum binary entropy with natural logs versus base-2 logs?",
+        "back": "ln(2) with natural logs; 1 bit with base-2 logs. The log base changes the scale, not the best split.",
+        "section": "3.3"
+      },
+      {
+        "front": "How is a split's child entropy aggregated?",
+        "back": "Take the sum of each child entropy weighted by that child's fraction of the parent examples.",
+        "section": "3.3"
+      },
+      {
+        "front": "Why is greedy decision-tree learning not guaranteed globally optimal?",
+        "back": "Each split is selected locally without searching every possible future subtree.",
+        "section": "3.3"
+      },
+      {
+        "front": "Name two controls that can stop tree growth.",
+        "back": "Examples include maximum depth, minimum entropy reduction, a pure leaf, or no useful available split.",
+        "section": "3.3"
+      },
+      {
+        "front": "What is pruning in a decision tree?",
+        "back": "Removing or replacing branches whose contribution does not justify their complexity, often to improve generalization.",
+        "section": "3.3"
+      },
+      {
+        "front": "What is the difference between hard-margin and soft-margin SVM?",
+        "back": "Hard margin requires all canonical margin constraints; soft margin allows violations and penalizes them in the objective.",
+        "section": "3.4"
+      },
+      {
+        "front": "What is hinge loss for label y in {-1,+1} and linear score s?",
+        "back": "max(0, 1-y*s). It is zero when the signed score is at least one.",
+        "section": "3.4"
+      },
+      {
+        "front": "Can a correctly classified example have positive hinge loss?",
+        "back": "Yes. If 0 < y*s < 1, it has the correct sign but lies inside the margin.",
+        "section": "3.4"
+      },
+      {
+        "front": "In the BOOK'S objective C*||w||^2 + mean hinge loss, what does larger C emphasize?",
+        "back": "The norm penalty relative to hinge loss. This is opposite to common formulations placing C on the loss term.",
+        "section": "3.4"
+      },
+      {
+        "front": "What does a kernel function compute for an implicit feature mapping phi?",
+        "back": "k(x,z) = phi(x) dot phi(z), without necessarily constructing the mapped vectors.",
+        "section": "3.4"
+      },
+      {
+        "front": "What is the quadratic kernel used in the chapter?",
+        "back": "k(x,z) = (x dot z)^2.",
+        "section": "3.4"
+      },
+      {
+        "front": "What is the RBF kernel formula?",
+        "back": "k(x,z) = exp(-||x-z||^2/(2*sigma^2)), for sigma > 0; it decreases as input distance increases.",
+        "section": "3.4"
+      },
+      {
+        "front": "How does ordinary kNN aggregate neighbors for classification versus regression?",
+        "back": "Classification: majority label. Regression: arithmetic mean of neighbor targets. Ties and weighting require additional choices.",
+        "section": "3.5"
+      },
+      {
+        "front": "Which two kNN choices discussed in the chapter are hyperparameters?",
+        "back": "The number of neighbors k and the choice of distance or similarity measure.",
+        "section": "3.5"
+      },
+      {
+        "front": "How is Euclidean distance between two vectors computed?",
+        "back": "Take the square root of the sum of squared coordinate differences: sqrt(sum_j (x_j-z_j)^2).",
+        "section": "3.5"
+      },
+      {
+        "front": "What cosine similarities correspond to same-direction, orthogonal, and opposite-direction nonzero vectors?",
+        "back": "Same direction: 1. Orthogonal: 0. Opposite direction: -1. Cosine similarity is undefined for a zero vector unless an implementation adopts a special convention.",
+        "section": "3.5"
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "title": "Anatomy of a Learning Algorithm",
+    "questions": [
+      {
+        "type": "matching",
+        "title": "Algorithm building blocks",
+        "prompt": "Match each linear-regression component to its role.",
+        "pairs": [
+          [
+            "Squared residual for one example",
+            "Loss function"
+          ],
+          [
+            "Mean squared residual over training data",
+            "Optimization criterion"
+          ],
+          [
+            "Gradient descent",
+            "Optimization routine"
+          ],
+          [
+            "w dot x + b",
+            "Prediction model"
+          ]
+        ],
+        "explanation": "The chapter separates a per-example loss, an aggregate criterion, and a procedure for optimizing it.",
+        "section": "4.1"
+      },
+      {
+        "type": "single",
+        "title": "Descent direction",
+        "prompt": "Which update is gradient descent for a parameter theta and positive learning rate alpha?",
+        "options": [
+          "theta <- theta - alpha * gradient of the objective",
+          "theta <- theta + alpha * gradient of the objective",
+          "theta <- alpha regardless of the gradient",
+          "theta <- the true target of the next unseen example"
+        ],
+        "correct": 0,
+        "explanation": "The gradient points toward steepest local increase; descent takes the opposite direction.",
+        "section": "4.1–4.2"
+      },
+      {
+        "type": "numerical",
+        "title": "One scalar update",
+        "prompt": "A parameter is 3, its current derivative is 4, and the learning rate is 0.1. What is its value after one gradient-descent step?",
+        "value": 2.6,
+        "tolerance": 1e-09,
+        "explanation": "3 - 0.1*4 = 2.6.",
+        "section": "4.2"
+      },
+      {
+        "type": "numerical",
+        "title": "Negative derivative update",
+        "prompt": "A parameter is 3, its current derivative is -4, and the learning rate is 0.1. What is its next value?",
+        "value": 3.4,
+        "tolerance": 1e-09,
+        "explanation": "Subtracting a negative derivative increases the parameter: 3 - 0.1*(-4) = 3.4.",
+        "section": "4.2"
+      },
+      {
+        "type": "numerical",
+        "title": "MSE derivative w",
+        "prompt": "There is one training pair x=2, y=5. At w=1 and b=1, use MSE = (y-(w*x+b))^2. What is the derivative with respect to w?",
+        "value": -8,
+        "tolerance": 0,
+        "explanation": "The residual y-(w*x+b) is 2. The derivative is -2*x*residual = -8.",
+        "section": "4.2"
+      },
+      {
+        "type": "numerical",
+        "title": "MSE derivative b",
+        "prompt": "For the same single example x=2, y=5, at w=1 and b=1, what is the MSE derivative with respect to b?",
+        "value": -4,
+        "tolerance": 0,
+        "explanation": "The derivative is -2*(y-(w*x+b)) = -4.",
+        "section": "4.2"
+      },
+      {
+        "type": "single",
+        "title": "Simultaneous updates",
+        "prompt": "When computing one full-batch step for w and b, which implementation matches the chapter?",
+        "options": [
+          "Update w for each example, but compute b using the final w and call it the same full-batch step",
+          "Skip the gradient calculation whenever the loss is positive",
+          "Compute the b gradient using an unknown future target",
+          "Compute both gradients using the old w and b, then update both parameters"
+        ],
+        "correct": 3,
+        "explanation": "Both partial derivatives should be evaluated at the same current parameter vector. Other update schemes are different algorithms.",
+        "section": "4.2"
+      },
+      {
+        "type": "single",
+        "title": "Epoch",
+        "prompt": "In the full-batch example, what does an epoch mean?",
+        "options": [
+          "The number of feature columns",
+          "One complete use of the training set to compute a parameter update",
+          "One prediction on an unseen example",
+          "One parameter regardless of the number of examples"
+        ],
+        "correct": 1,
+        "explanation": "For minibatch training, one epoch still traverses the dataset, but it usually contains multiple parameter updates.",
+        "section": "4.2"
+      },
+      {
+        "type": "single",
+        "title": "Large learning rate",
+        "prompt": "What can happen if the learning rate is too large?",
+        "options": [
+          "Updates can overshoot, oscillate, or diverge rather than converge",
+          "All gradients become exactly zero by definition",
+          "The model automatically loses all hyperparameters",
+          "The objective is guaranteed to decrease at every step"
+        ],
+        "correct": 0,
+        "explanation": "Gradient descent is sensitive to step size; a very small learning rate can instead make progress slow.",
+        "section": "4.2"
+      },
+      {
+        "type": "single",
+        "title": "Convexity caveat",
+        "prompt": "Which statement is mathematically correct about a differentiable convex objective?",
+        "options": [
+          "It cannot be optimized numerically",
+          "It necessarily has exactly one minimizing parameter vector",
+          "Every stationary point is a strict local maximum",
+          "Any local minimum is global, but the minimizer need not be unique"
+        ],
+        "correct": 3,
+        "explanation": "Convexity rules out nonglobal local minima; uniqueness needs additional conditions such as strict convexity.",
+        "section": "4.1"
+      },
+      {
+        "type": "single",
+        "title": "Minibatch SGD",
+        "prompt": "How does minibatch stochastic gradient descent reduce the cost of an individual update?",
+        "options": [
+          "Estimate the gradient from a subset of training examples",
+          "Use the unseen example's true target",
+          "Require all possible datasets at every update",
+          "Replace every gradient with zero"
+        ],
+        "correct": 0,
+        "explanation": "A minibatch gradient is cheaper but noisier than a full-batch gradient; overall convergence cost depends on the problem.",
+        "section": "4.2"
+      },
+      {
+        "type": "matching",
+        "title": "Optimization variants",
+        "prompt": "Match each method to the description emphasized in the chapter.",
+        "pairs": [
+          [
+            "Minibatch SGD",
+            "Uses subsets to estimate a gradient"
+          ],
+          [
+            "Adagrad",
+            "Adapts per-parameter learning rates using accumulated squared gradients"
+          ],
+          [
+            "Momentum",
+            "Carries update history to accelerate progress and reduce oscillation"
+          ]
+        ],
+        "explanation": "These are optimization procedures, not stand-alone statistical prediction models.",
+        "section": "4.2"
+      },
+      {
+        "type": "single",
+        "title": "Solver versus learner",
+        "prompt": "Why is gradient descent not itself a complete machine-learning algorithm?",
+        "options": [
+          "It is always a clustering method",
+          "It is a general optimizer and does not by itself specify the prediction model, loss, and training task",
+          "It requires only non-numerical features",
+          "It cannot be used to fit a statistical model"
+        ],
+        "correct": 1,
+        "explanation": "The same optimizer can be used for many different models and objectives, including non-ML problems.",
+        "section": "4.2"
+      },
+      {
+        "type": "single",
+        "title": "Library workflow",
+        "prompt": "What is the practical engineering workflow recommended in the chapter?",
+        "options": [
+          "Treat an illustrative code snippet as a complete API specification",
+          "Assume every estimator supports every target type",
+          "Use a well-tested library and check its input, output, and hyperparameter documentation",
+          "Reimplement every optimizer for each task"
+        ],
+        "correct": 2,
+        "explanation": "Libraries provide stable implementations, but estimator capabilities and data-shape requirements still matter.",
+        "section": "4.3–4.4"
+      },
+      {
+        "type": "multiple",
+        "title": "Estimator capabilities",
+        "prompt": "Select TWO capabilities to verify before selecting a learning algorithm or implementation.",
+        "options": [
+          "Whether it supports incremental updates from new labeled batches",
+          "Whether every fitted model can be updated without retraining by definition",
+          "Whether every classifier returns calibrated probabilities by definition",
+          "Whether it accepts the input feature representation"
+        ],
+        "correct": [
+          0,
+          3
+        ],
+        "explanation": "Feature support, probability output, class weighting, incremental fitting, and target type vary by estimator.",
+        "section": "4.4"
+      },
+      {
+        "type": "single",
+        "title": "Class weights",
+        "prompt": "What is the intended effect of assigning a larger training weight to a minority class?",
+        "options": [
+          "Turn a classification target into a real-valued regression target",
+          "Make errors on that class more costly during fitting, potentially trading errors elsewhere",
+          "Duplicate the number of input feature columns",
+          "Guarantee zero error on that class in future data"
+        ],
+        "correct": 1,
+        "explanation": "Weighting changes the optimization tradeoff; it does not guarantee a particular generalization result.",
+        "section": "4.4"
+      },
+      {
+        "type": "essay",
+        "title": "Debug a training loop",
+        "prompt": "A training loop shows rising or oscillating loss after parameter updates. Give a minimal debugging plan grounded in this chapter.",
+        "explanation": "Self-assessment: mark correct only if your answer includes ALL of the following. Verify the gradient signs and mean-versus-sum scaling; compute all gradient coordinates at the same current parameters; try a smaller learning rate; track the objective over training. Increasing epochs alone does not fix an unstable update.",
+        "section": "4.2"
+      },
+      {
+        "type": "essay",
+        "title": "Batch update calculation",
+        "prompt": "For one example x=2, y=5, start at w=1, b=1 and use learning rate 0.1. Compute BOTH parameters after one simultaneous MSE gradient step and the new squared error.",
+        "explanation": "Self-assessment: mark correct only if your answer includes ALL of the following. Initial residual is 2; gradients are -8 for w and -4 for b; simultaneous updates give w=1.8 and b=1.4; the new prediction is 5 and the squared error is 0.",
+        "section": "4.2"
+      }
+    ],
+    "cards": [
+      {
+        "front": "What three building blocks of a learning algorithm does Chapter 4 name?",
+        "back": "A loss function, an optimization criterion based on the loss, and an optimization routine using training data.",
+        "section": "4.1"
+      },
+      {
+        "front": "How does per-example loss differ from a training objective?",
+        "back": "Loss scores a prediction on one example; the objective aggregates losses and may add regularization.",
+        "section": "4.1"
+      },
+      {
+        "front": "What direction does the gradient point toward?",
+        "back": "The direction of steepest local increase in a differentiable scalar objective under the usual Euclidean geometry.",
+        "section": "4.1"
+      },
+      {
+        "front": "Does convexity imply a unique minimizing parameter vector?",
+        "back": "No. Every local minimum is global, but multiple minimizers can exist. Strict convexity can give uniqueness when a minimizer exists.",
+        "section": "4.1"
+      },
+      {
+        "front": "State the gradient-descent parameter update.",
+        "back": "theta_new = theta_old - alpha * gradient(objective at theta_old), with positive learning rate alpha.",
+        "section": "4.2"
+      },
+      {
+        "front": "Why does gradient descent subtract the gradient?",
+        "back": "Because it seeks to reduce the objective, whereas the gradient points toward local increase.",
+        "section": "4.2"
+      },
+      {
+        "front": "If a parameter's derivative is negative, how does a gradient-descent step change it?",
+        "back": "It increases the parameter, since subtracting a negative quantity adds a positive amount.",
+        "section": "4.2"
+      },
+      {
+        "front": "For MSE with prediction w*x+b, what is the derivative with respect to w?",
+        "back": "(-2/N) * sum_i x_i * [y_i - (w*x_i+b)] for a single input feature.",
+        "section": "4.2"
+      },
+      {
+        "front": "For MSE with prediction w*x+b, what is the derivative with respect to b?",
+        "back": "(-2/N) * sum_i [y_i - (w*x_i+b)].",
+        "section": "4.2"
+      },
+      {
+        "front": "At which parameter values should the gradient coordinates for one simultaneous update be evaluated?",
+        "back": "All at the same old parameter vector, before applying any of that step's parameter updates.",
+        "section": "4.2"
+      },
+      {
+        "front": "What is an epoch?",
+        "back": "One complete traversal or use of the training dataset; it can contain one full-batch update or many minibatch updates.",
+        "section": "4.2"
+      },
+      {
+        "front": "What does the learning rate control?",
+        "back": "The scale of parameter updates. Too large can cause instability; too small can make learning slow.",
+        "section": "4.2"
+      },
+      {
+        "front": "How does a minibatch gradient differ from a full-batch gradient?",
+        "back": "It estimates the gradient from a subset of examples, making each update cheaper but typically noisier.",
+        "section": "4.2"
+      },
+      {
+        "front": "What is Adagrad's central idea?",
+        "back": "Use accumulated squared gradients to adapt the step size separately for each parameter.",
+        "section": "4.2"
+      },
+      {
+        "front": "What is momentum's central idea in optimization?",
+        "back": "Carry a history-dependent update direction to speed progress in consistent directions and reduce oscillation.",
+        "section": "4.2"
+      },
+      {
+        "front": "Why is gradient descent a solver rather than a complete prediction model?",
+        "back": "It optimizes a supplied objective; the model, loss, and data interpretation must be specified separately.",
+        "section": "4.2"
+      },
+      {
+        "front": "Why can parameter initialization matter for gradient-based fitting?",
+        "back": "For nonconvex objectives it can affect the path and final solution reached. The all-zero initialization in the linear-regression example is not a universal recommendation.",
+        "section": "4.2"
+      },
+      {
+        "front": "Does a small parameter change alone prove that fitting reached the best solution?",
+        "back": "No. It can indicate convergence, but also an excessively small learning rate or a flat region. Inspect the objective and the broader optimization context.",
+        "section": "4.2"
+      },
+      {
+        "front": "Why do ML engineers generally use libraries rather than implement every learner and optimizer?",
+        "back": "Libraries provide tested, efficient implementations and supporting tools; engineers can focus on data, modeling choices, and evaluation.",
+        "section": "4.3–4.4"
+      },
+      {
+        "front": "What effect can increasing a class weight have?",
+        "back": "It makes errors on that class more costly during training, shifting the fitted tradeoff; it does not guarantee perfect future classification.",
+        "section": "4.3–4.4"
+      },
+      {
+        "front": "What is incremental learning?",
+        "back": "Updating an existing model from new batches of examples without fitting from scratch on the full history; support depends on the estimator.",
+        "section": "4.3–4.4"
+      },
+      {
+        "front": "Before choosing an estimator, what input/output capabilities should you check?",
+        "back": "Accepted feature types and shapes, supported target tasks, probability or score output, class weights, incremental fitting, and hyperparameters.",
+        "section": "4.3–4.4"
+      }
+    ]
+  }
+]

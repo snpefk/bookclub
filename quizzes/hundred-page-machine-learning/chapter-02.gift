@@ -1,0 +1,163 @@
+// Original study questions based on Andriy Burkov, 2019.
+$CATEGORY: Chapter 2 — Notation and Definitions
+
+::Data structures::Match each mathematical object to its description. {
+    =Scalar -> One numerical value
+    =Vector -> An ordered list of numerical values
+    =Matrix -> A rectangular array of numerical values
+    =Set -> An unordered collection of unique elements
+    ####Ordering matters for vectors, but not for sets; repeated elements do not increase set cardinality. Source\: section 2.1.1.
+}
+
+::Indexed feature notation::What does x_i^(j) denote in the book? {
+    ~Example j raised to the power i
+    ~The j-th power of the whole dataset
+    =Feature j of example i
+    ~The number of examples multiplied by the number of features
+    ####The parenthesized superscript is an index, not an exponent. Source\: section 2.1.1.
+}
+
+::Sigma::Compute the sum of 2i for i from 1 through 4. {
+    #20:0
+    ####2 + 4 + 6 + 8 \= 20. Source\: section 2.1.2.
+}
+
+::Pi::Compute the product of i for i from 1 through 4. {
+    #24:0
+    ####1 * 2 * 3 * 4 \= 24. Source\: section 2.1.3.
+}
+
+::Set operations::Let A contain 1, 3, 5 and B contain 3, 4. Which is their intersection? {
+    ~The set containing 1, 3, 4, 5
+    =The set containing only 3
+    ~The ordered list 1, 3, 5, 3, 4
+    ~The empty set
+    ####Intersection retains elements present in both sets; union would contain 1, 3, 4, 5. Source\: section 2.1.4.
+}
+
+::Derived set::Let S contain 1, 3, 4, 5. Form T from x squared for x in S with x > 3. What is the sum of the elements of T? {
+    #41:0
+    ####Only 4 and 5 satisfy the condition; T contains 16 and 25, whose sum is 41. Source\: section 2.1.4.
+}
+
+::Dot product::Compute the dot product of [2, -1, 3] and [4, 5, 0]. {
+    #3:0
+    ####2*4 + (-1)*5 + 3*0 \= 3. A dot product is a scalar. Source\: section 2.1.5.
+}
+
+::Matrix-vector shape::W has 3 rows and 2 columns. x is a column vector with 2 entries. What is the shape of Wx? {
+    ~A 2-by-3 matrix
+    =A column vector with 3 entries
+    ~A column vector with 2 entries
+    ~The product is undefined
+    ####The inner dimensions match, and each row of W produces one output entry. Source\: section 2.1.5.
+}
+
+::Arg max::For inputs a, b, c, a function returns 2, 7, 4 respectively. What does arg max return? {
+    ~The sum 13
+    ~7
+    =b
+    ~c
+    ####arg max returns a maximizing input; max returns the output value 7. Source\: section 2.1.7.
+}
+
+::Local versus global::Which statement about a local minimum is correct? {
+    =It is no higher than nearby values, but a lower value may exist elsewhere
+    ~It must be the unique global minimum
+    ~It must have a strictly positive derivative
+    ~It is always higher than every neighboring value
+    ####Local optimality concerns a neighborhood, while global optimality concerns the full domain. Source\: section 2.1.6.
+}
+
+::Chain rule::For F(x) \= (3x + 1)^2, what is F'(2)? {
+    #42:0
+    ####F'(x) \= 2(3x+1)*3, so F'(2) \= 42. Source\: section 2.1.9.
+}
+
+::Gradient::For f(u,v) \= 3u + 2v + 7, what is the gradient with coordinates ordered u, v? {
+    ~7
+    =[3, 2]
+    ~[u, v]
+    ~[3u, 2v]
+    ####Take one partial derivative per coordinate, holding the other coordinate constant. Source\: section 2.1.9.
+}
+
+::Density versus probability::A random variable has a continuous density. Which statement is correct? {
+    ~The density height at x is always the probability of exactly x
+    =An interval probability is an area under the density; a single point has probability zero
+    ~A density must be at most one at every point
+    ~All continuous distributions assign positive probability to every individual point
+    ####A density is not a probability mass function. Its integral is one; its height can exceed one. Source\: section 2.2.
+}
+
+::Expectation::X takes value 0 with probability 0.25 and value 4 with probability 0.75. What is E[X]? {
+    #3:0
+    ####The probability-weighted average is 0*0.25 + 4*0.75 \= 3. Source\: section 2.2.
+}
+
+::Variance::X takes 0 and 2, each with probability 0.5. What is its variance? {
+    #1:0
+    ####Its mean is 1, so variance is 0.5*(0-1)^2 + 0.5*(2-1)^2 \= 1. Source\: section 2.2.
+}
+
+::Unbiased does not mean exact::What does it mean for an estimator of a quantity to be unbiased? {
+    ~It has zero variance
+    =Its expectation over repeated samples equals the true quantity
+    ~It never uses random samples
+    ~Its value equals the true quantity for every possible sample
+    ####An individual estimate can be wrong even when the estimator is unbiased. Source\: section 2.3.
+}
+
+::Sample mean::For the observed sample 2, 4, 9, what is the sample mean? {
+    #5:0
+    ####(2+4+9)/3 \= 5; the sample mean is an unbiased estimator of the population mean under the usual sampling assumptions. Source\: section 2.3.
+}
+
+::Bayes calculation::P(A) \= 0.2, P(B given A) \= 0.6, and P(B) \= 0.3. What is P(A given B)? {
+    #0.4:0
+    ####Bayes' rule gives 0.6*0.2/0.3 \= 0.4. Source\: section 2.4.
+}
+
+::Bayesian terms::Match each Bayesian term to its meaning. {
+    =Prior -> Belief about parameters before the current data
+    =Likelihood -> Data probability or density as a function of parameters
+    =Posterior -> Belief about parameters after conditioning on data
+    =MAP estimate -> Parameter value maximizing the posterior
+    ####Posterior is proportional to likelihood times prior; evidence normalizes it. Source\: section 2.5.
+}
+
+::Parameters and hyperparameters::Select TWO hyperparameters rather than fitted model coefficients. {
+    ~%-50%A fitted linear-regression coefficient
+    ~%50%The chosen maximum depth of a decision tree
+    ~%50%The chosen k in k-nearest neighbors
+    ~%-50%A fitted linear-regression intercept
+    ####Hyperparameters control the learning setup; coefficients and intercept are fitted within that setup. Hyperparameters can themselves be selected using validation. Source\: section 2.6.
+}
+
+::Prediction targets::Match each target type to the appropriate task. {
+    =Spam or not spam -> Binary classification
+    =One of cat, dog, horse -> Multiclass classification
+    =A house price in euros -> Regression
+    =One of three numeric class codes -> Multiclass classification, despite numeric encoding
+    ####Task type depends on target meaning, not whether its storage format is numeric. Source\: section 2.7.
+}
+
+::Instance-based learning::Why does ordinary kNN need the training examples when predicting? {
+    ~It requires the true target of the query before searching
+    ~It cannot use a distance function
+    ~It fits a fixed coefficient vector and discards all examples
+    =Its predictions depend on finding nearby stored examples and their labels
+    ####The stored examples are central to its instance-based prediction procedure. Source\: section 2.8.
+}
+
+::Deep representation::What distinguishes the deep-learning description in this chapter? {
+    ~Any dataset with more than two rows
+    =Multiple learned layers, with later layers receiving representations produced by preceding layers
+    ~Any model trained for a large number of epochs
+    ~Using a vector rather than a scalar input
+    ####Depth concerns successive learned transformations, not merely dataset size or training duration. Source\: section 2.9.
+}
+
+::Bayesian sequential update::Explain how to update beliefs about a fixed parameter after two conditionally independent observations. {
+    ####Self-assessment\: mark correct only if your answer includes ALL of the following. Start with a prior; multiply by the first observation's likelihood and normalize; use that posterior as the next prior; multiply by the second likelihood and normalize. Equivalently the final posterior is proportional to the original prior times both likelihoods. Do not count the prior twice. Source\: section 2.5.
+}

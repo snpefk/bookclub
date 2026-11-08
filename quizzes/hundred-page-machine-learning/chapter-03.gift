@@ -1,0 +1,157 @@
+// Original study questions based on Andriy Burkov, 2019.
+$CATEGORY: Chapter 3 — Fundamental Algorithms
+
+::Linear prediction::For f(x) \= w dot x + b, w \= [2, -1], x \= [3, 4], b \= 5, what is f(x)? {
+    #7:0
+    ####2*3 - 1*4 + 5 \= 7. Source\: section 3.1.1.
+}
+
+::MSE::A model predicts 1 and 5 for targets 3 and 4. What is the mean squared error? {
+    #2.5:0
+    ####The squared errors are 4 and 1; their average is 2.5. Source\: section 3.1.2.
+}
+
+::Why square errors::Which is a useful property of squared-error loss compared with absolute-error loss? {
+    =It is differentiable everywhere and increasingly penalizes larger residual magnitudes
+    ~It makes every regression objective nonconvex
+    ~It never responds to outliers
+    ~It guarantees that any fitted model generalizes perfectly
+    ####Squaring is smooth and magnifies large errors. That also makes it sensitive to large residuals. Source\: section 3.1.2.
+}
+
+::Overfitting::Which outcome is characteristic of overfitting? {
+    =Very low training error but substantially worse error on representative unseen examples
+    ~An optimizer that always stops before reading the data
+    ~A model with no fitted parameters by definition
+    ~Identical low errors on training and unseen examples
+    ####Fitting training peculiarities does not necessarily capture patterns that persist in new data. Source\: section 3.1.2.
+}
+
+::Logistic task::Despite its name, what task does binary logistic regression solve? {
+    ~Only dimensionality reduction
+    ~Only continuous-target regression
+    =Classification
+    ~Only clustering
+    ####Its sigmoid output can be interpreted as a positive-class probability and thresholded into a class. Source\: section 3.2.
+}
+
+::Sigmoid at zero::What is sigmoid(0), where sigmoid(z) \= 1/(1+exp(-z))? {
+    #0.5:0
+    ####exp(0)\=1, so the result is 1/2. Source\: section 3.2.1.
+}
+
+::Threshold is a choice::A logistic model assigns positive-class probability 0.6. What happens if the threshold is raised from 0.5 to 0.7? {
+    ~It must still predict positive because thresholds never matter
+    ~The probability becomes 0.7
+    ~Its fitted coefficients must automatically be retrained
+    =Its predicted class changes from positive to negative without changing the fitted probability
+    ####The threshold converts a score into a decision; it need not be fixed at 0.5. Source\: section 3.2.1.
+}
+
+::Likelihood of a negative label::A logistic model outputs positive-class probability 0.8. If the observed label is 0, what probability does the model assign to that label? {
+    #0.2:1e-09
+    ####For label 0, the likelihood contribution is 1-p, here 0.2. Source\: section 3.2.2.
+}
+
+::Log-likelihood::Why maximize log-likelihood instead of multiplying many small likelihood terms directly? {
+    =The logarithm preserves the maximizer and converts products into numerically easier sums
+    ~The logarithm reverses the order of all positive likelihoods
+    ~Log-likelihood ignores all negative labels
+    ~This always yields a closed-form logistic-regression solution
+    ####The natural logarithm is strictly increasing. Summing log terms avoids numerical underflow from tiny products. Source\: section 3.2.2.
+}
+
+::Tree leaf probability::A decision-tree leaf contains 8 examples, of which 6 have binary label 1. What positive-class probability does the chapter's leaf model return? {
+    #0.75:0
+    ####The leaf prediction is the average binary label\: 6/8. Source\: section 3.3.2.
+}
+
+::Entropy comparison::Which binary leaf has the greatest label entropy? {
+    ~A leaf with no positive and 10 negative examples
+    =A leaf with 5 positive and 5 negative examples
+    ~A leaf with 9 positive and 1 negative example
+    ~A leaf with 10 positive and no negative examples
+    ####Entropy is maximal at equal class proportions. With natural logarithms the maximum is ln(2), not 1; with base-2 logs it is 1 bit. Source\: section 3.3.2.
+}
+
+::Weighted split entropy::A split puts 3 examples in a child with entropy 0.2 and 7 examples in a child with entropy 0.6. What is the weighted child entropy? {
+    #0.48:1e-09
+    ####Use child sample fractions\: 0.3*0.2 + 0.7*0.6 \= 0.48. Source\: section 3.3.2.
+}
+
+::Greedy splitting::Why does the described ID3 procedure not guarantee a globally optimal tree? {
+    ~Entropy cannot be calculated for binary data
+    ~It never consults the example labels
+    =It chooses the best available split locally without evaluating all future tree structures
+    ~It explicitly evaluates every possible complete tree
+    ####A locally best split need not belong to the globally best full tree. Source\: section 3.3.2.
+}
+
+::Tree stopping and pruning::Select TWO statements consistent with the chapter's tree discussion. {
+    ~%-50%A larger tree is guaranteed to generalize better
+    ~%50%Pruning removes branches whose benefit does not justify retaining them
+    ~%50%A maximum depth can stop recursive splitting
+    ~%-50%Every leaf must always contain exactly one example
+    ####Depth and minimum improvement are controls on growth; pruning can reduce overfitting. Source\: section 3.3.2.
+}
+
+::Hinge loss inside margin::For positive label y \= +1 and score s \= w dot x - b \= 0.4, what is hinge loss max(0, 1-y*s)? {
+    #0.6:1e-09
+    ####The sign is correct, but the example is inside the unit score margin\: 1-0.4\=0.6. Source\: section 3.4.1.
+}
+
+::Hinge loss outside margin::For label y \= -1 and score s \= -2, what is hinge loss max(0, 1-y*s)? {
+    #0:0
+    ####The signed score y*s is 2, so max(0, 1-2)\=0. Source\: section 3.4.1.
+}
+
+::Book-specific C convention::Use the BOOK'S objective\: C*||w||^2 + mean hinge loss. What does increasing C directly emphasize? {
+    ~The number of input features
+    =The norm penalty, relative to the training hinge-loss term
+    ~The hinge-loss term, relative to the norm penalty
+    ~The number of neighbors in kNN
+    ####Here C multiplies the norm penalty. Many libraries instead put C on the loss term, giving the opposite direction; always inspect the objective. Source\: section 3.4.1.
+}
+
+::Kernel trick::What does the kernel trick let SVM compute without explicitly materializing transformed feature vectors? {
+    ~A guarantee of separability for every dataset and kernel
+    ~All possible trees in constant time
+    ~The exact true label of every future example
+    =Their dot products in an implicit feature space
+    ####A kernel provides k(x,z)\=phi(x) dot phi(z); optimization can use these similarities directly. Source\: section 3.4.2.
+}
+
+::Quadratic kernel::For x \= [1,2] and z \= [3,4], compute the quadratic kernel k(x,z) \= (x dot z)^2. {
+    #121:0
+    ####The dot product is 1*3+2*4\=11; squaring gives 121. Source\: section 3.4.2.
+}
+
+::RBF similarity::For a fixed positive sigma, how does the RBF kernel change as the Euclidean distance between two inputs increases? {
+    ~It becomes a negative probability
+    =It decreases toward zero
+    ~It increases without bound
+    ~It stays exactly one
+    ####The RBF is exp(-distance^2/(2*sigma^2)); it equals one at zero distance and decreases with distance. Source\: section 3.4.2.
+}
+
+::kNN predictions::Match each kNN situation to its prediction or property. {
+    =Classification neighbor labels A, A, B -> Predict class A by majority
+    =Regression neighbor targets 2, 4, 9 -> Predict 5 by arithmetic mean
+    =Changing the chosen k -> Changing a hyperparameter
+    =Making a query after training -> Consult stored labeled examples
+    ####Ordinary kNN retains examples and aggregates labels from a selected neighborhood. Source\: section 3.5.
+}
+
+::Euclidean distance::What is the Euclidean distance between [1,2] and [4,6]? {
+    #5:0
+    ####The distance is sqrt(3^2+4^2)\=5. Source\: section 3.5.
+}
+
+::Orthogonal cosine::What is the cosine similarity of the nonzero vectors [1,0] and [0,2]? {
+    #0:0
+    ####The dot product is zero, so their cosine similarity is zero. Source\: section 3.5.
+}
+
+::Choose a model under constraints::You need many very fast predictions with limited serving memory. Compare a fitted linear model and ordinary kNN; mention one reason you might still prefer kNN. {
+    ####Self-assessment\: mark correct only if your answer includes ALL of the following. A fitted linear model stores a coefficient vector and predicts with a dot product; ordinary kNN retains training examples and performs neighbor search; kNN may better fit a nonlinear local pattern or need little fitting, so accuracy and the data geometry may justify its prediction cost. Exact performance depends on indexing and implementation. Source\: section 3.1 and 3.5.
+}
