@@ -1,0 +1,3 @@
+# Keep the annotated catalog in the repository, but do not publish it on Pages.
+exclude:
+  - study/crafting-interpreters/links.md

@@ -25,11 +25,13 @@ test('Crafting Interpreters catalog includes every counted destination and an ex
     assert.ok(!catalog.includes('/Users/'));
 });
 
-test('homepage exposes public references, never private reading copies', () => {
+test('homepage keeps Anki access but does not expose the annotated catalog', () => {
     const index = read('index.html');
     assert.ok(index.includes('href="https://craftinginterpreters.com/contents.html"'));
-    assert.ok(index.includes(`href="${study}links.md" download`));
-    assert.ok(index.includes(`href="${study}README.md"`));
+    assert.ok(!index.includes(`href="${study}links.md"`));
+    assert.ok(!index.includes(`href="${study}README.md"`));
+    assert.ok(index.includes('href="anki/crafting-interpreters/chapter-20-hash-tables.tsv" download'));
+    assert.match(read('_config.yml'), /exclude:\s*\n\s+- study\/crafting-interpreters\/links\.md/);
     assert.ok(!/\b(?:href|src)=["'](?:\.\/)?books\//.test(index));
     for (const name of ['links.md', 'README.md', 'LICENSE-NOTICE.md', 'export.py', 'catalog.py', 'validate.py']) {
         assert.ok(read(study + name).length > 0);
