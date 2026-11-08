@@ -374,22 +374,38 @@ ul.in-progress > li {
     height: auto;
 }
 
+.done > .rust-atomics-book {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 0.65rem 1rem;
+    align-items: start;
+}
+
+.rust-atomics-book > img {
+    grid-row: 1 / span 2;
+    width: 100%;
+    height: auto;
+}
+
+.rust-atomics-book .book-info { min-width: 0; }
+.rust-atomics-book .footer { flex: none; margin-top: 0.35rem; }
+.book-diplomas { grid-column: 2; min-width: 0; }
+.book-diplomas h4 { margin: 0 0 0.5rem; font-size: 0.9rem; }
+
 .diploma-gallery {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    max-width: 900px;
-    margin: 0 auto;
+    gap: 0.65rem;
+    max-width: 20rem;
 }
 
 .diploma-gallery figure {
     margin: 0;
-    padding: 0.75rem;
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.55);
     text-align: center;
+    min-width: 0;
 }
 
+.diploma-gallery figure > a { display: block; max-width: 5rem; margin: 0 auto; }
 .diploma-gallery img {
     display: block;
     width: 100%;
@@ -397,8 +413,10 @@ ul.in-progress > li {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-.diploma-gallery figcaption { margin-top: 0.7rem; }
+.diploma-gallery figcaption { margin-top: 0.4rem; font-size: 0.75rem; line-height: 1.4; overflow-wrap: anywhere; }
+.diploma-gallery figcaption a { display: block; }
 .diploma-gallery a { color: #fff8dc; }
+.diploma-gallery a:focus-visible { outline: 3px solid gold; outline-offset: 3px; }
 
 /* Chapter links and the standalone quiz share the site's dark palette. */
 .book-info h4 { margin: 0.75rem 0 0; }
@@ -461,5 +479,6 @@ ul.in-progress > li {
     body h2, body > ul { width: 100%; box-sizing: border-box; }
     audio { width: 100%; padding: 0; }
     .subway-gif { display: none; }
-    .diploma-gallery { grid-template-columns: 1fr; max-width: 340px; }
+    .rust-atomics-book > img { grid-row: 1; }
+    .book-diplomas { grid-column: 1 / -1; }
 }
