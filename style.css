@@ -1,13 +1,33 @@
+html {
+    min-height: 100%;
+    scrollbar-gutter: stable;
+}
+
 body {
+    isolation: isolate;
+    box-sizing: border-box;
+    min-height: 100vh;
+    min-height: 100svh;
+    font-family: sans-serif;
+    color: #eaeaea;
+    margin: 0;
+    padding: 2rem;
+}
+
+/* A viewport-sized layer stays still on scroll and avoids mobile fixed-background bugs. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background:
         linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
         url('img/bckg.jpg');
+    background-color: #142431;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    font-family: sans-serif;
-    color: #eaeaea;
-    margin: 2rem;
 }
 
 h1, h2 {
@@ -511,7 +531,7 @@ ul.in-progress > li {
 .quiz-feedback { border-left: 3px solid #add8e6; padding-left: 0.75rem; }
 
 @media (max-width: 700px) {
-    body { margin: 1rem; }
+    body { padding: 1rem; }
     body h2, body > ul, .book-tabs, .book-panel > ul { width: 100%; box-sizing: border-box; }
     audio { width: 100%; padding: 0; }
     .subway-gif { display: none; }
